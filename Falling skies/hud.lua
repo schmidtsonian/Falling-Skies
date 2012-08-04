@@ -1,9 +1,20 @@
+--[[
+	Version: 0.1
+	Name: Heads Up Display
+	Description:
+
+]]--
+
 local _M = display.newGroup()
+
+-- Initial settings
 _M.level = 1
 _M.velocity = 2000
 
+-- Objects
 local _createPlayer, _createChunks, _createBg, _createMenu
 
+-- Events
 local _onCollision
 
 _createPlayer = function()
@@ -36,6 +47,7 @@ end
 _onFrame = function( e )
 end
 
+-- Constructor
 function _M:new()
 
 	-- Setup bg
