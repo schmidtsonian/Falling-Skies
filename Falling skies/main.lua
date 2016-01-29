@@ -8,11 +8,11 @@ require "lib.Common"
 -- Objects
 easingx = require "lib.Easing"
 tnt = require "class.Transitions"
-physics = require "physics"
-hud = require "hud"
+Physics = require "physics"
+Hud = require "Hud"
 
-physics.start()
-physics.setGravity( 0, 0 )
+Physics.start()
+Physics.setGravity( 0, 0 )
 
 -- Initialice
-hud:new()
+Hud:new()
