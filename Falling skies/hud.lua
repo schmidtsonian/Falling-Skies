@@ -31,9 +31,7 @@ createPlayer = function()
 	local g = display.newGroup()
 
 	g.body = display.newRect( g, 0, 0, 50, 50 )
-    g.halfWidth = g.body.width / 2;
-
-	-- g:setReferencePoint( display.BottomCenterReferencePoint )
+    g.halfWidth = g.body.width / 2
 	return g
 end
 
