@@ -85,6 +85,32 @@ end
 
 releaseEnemies = function(e)
     print(e)
+    
+    local enemy = display.newRect(MIDDLE_WIDTH - 50, 0, 30, 30)
+    Physics.addBody(enemy, "kinematic", {density=0.1, friction=0, bounce=0.0} )
+    enemy.isenemy = true
+    enemy.isSensor = true
+    enemy.type = 'enemy'
+    
+    enemy.trans = transition.to( enemy, { x=enemy.x, time=M.speed, y=SH,
+        onStart =
+                function()
+                    -- play sound
+                end ,
+        onCancel =
+                function()
+                    enemy:removeSelf()
+                    enemy = nil
+                    -- print("bullet removed onCancel")
+                end ,
+        onComplete =
+                function()
+                    enemy:removeSelf()
+                    enemy = nil
+                    -- print("bullet removed onComplete")
+                end
+            })
+    enemies[#enemy+1] = enemy
 end
 
 onTouch = function(e)
