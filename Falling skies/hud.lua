@@ -54,8 +54,12 @@ _onTouch = function(e)
     elseif e.phase == "moved" then
 
         local x = (e.x - e.xStart) + _M.player.markX
-        
-        _M.player.x = x
+        if x < 25 then
+            x = 25;
+        elseif x > SW-25 then
+            x = SW-25
+        end
+        _M.player.x = x 
     end
 
     return true
