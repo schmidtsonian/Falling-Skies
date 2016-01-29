@@ -132,7 +132,7 @@ function M:new()
 	Runtime:addEventListener( "enterFrame", onFrame )
 	Runtime:addEventListener( "collision", onCollision )
 	Runtime:addEventListener( "touch", onTouch )
-    -- timer.performWidthDelay( M.speed, releaseEnemies, -1)
+    timer.performWithDelay( M.speed, releaseEnemies, -1)
 end
 
 return M
