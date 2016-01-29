@@ -7,7 +7,7 @@ require "lib.Common"
 
 -- Objects
 easingx = require "lib.Easing"
-tnt = require "class.Transitions"
+-- tnt = require "class.Transitions"
 Physics = require "physics"
 Hud = require "Hud"
 
