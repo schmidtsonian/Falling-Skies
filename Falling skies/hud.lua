@@ -11,6 +11,11 @@ local _M = display.newGroup()
 _M.level = 1
 _M.velocity = 2000
 
+-- Bullets
+local bullets = {}
+local bulletSpeed = 700
+local bulletReach = -50
+
 -- Objects
 local _createPlayer, _createChunks, _createBg, _createMenu
 
@@ -21,6 +26,7 @@ _createPlayer = function()
 	local g = display.newGroup()
 
 	g.body = display.newRect( g, 0, 0, 50, 50 )
+    g.halfWidth = g.body.width / 2;
 
 	-- g:setReferencePoint( display.BottomCenterReferencePoint )
 	return g
@@ -45,6 +51,33 @@ _onCollision = function( e )
 end
 
 _onFrame = function( e )
+    local bullet = display.newRect( _M.player.x, _M.player.y, 10, 20 )
+    Physics.addBody ( bullet, "kinematic", {density=0.1, friction=0, bounce=0.0} )
+    -- bullet.isBullet = true
+    -- bullet.isSensor = true
+    -- bullet.type = 'bullet'
+    -- bullet:setLinearVelocity( 0, -2000 )
+    
+    
+    bullet.trans =  transition.to( bullet, { x=bullet.x, time=bulletSpeed, y=bulletReach,
+        onStart =
+                function()
+                    -- play sound
+                end ,
+        onCancel =
+                function()
+                    bullet:removeSelf()
+                    bullet = nil
+                    print("bullet removed onCancel")
+                end ,
+        onComplete =
+                function()
+                    bullet:removeSelf()
+                    bullet = nil
+                    print("bullet removed onComplete")
+                end
+            })
+    bullets[#bullets+1] = bullet
 end
 
 _onTouch = function(e)
@@ -54,10 +87,10 @@ _onTouch = function(e)
     elseif e.phase == "moved" then
 
         local x = (e.x - e.xStart) + _M.player.markX
-        if x < 25 then
-            x = 25;
-        elseif x > SW-25 then
-            x = SW-25
+        if x < _M.player.halfWidth then
+            x = _M.player.halfWidth;
+        elseif x > SW - _M.player.halfWidth then
+            x = SW-_M.player.halfWidth
         end
         _M.player.x = x 
     end
