@@ -13,7 +13,7 @@ M.speed = 1000
 
 -- Bullets
 local bullets = {}
-local bulletSpeed = 250
+local bulletSpeed = 350
 local bulletReach = -50
 
 -- Enemy
@@ -50,17 +50,35 @@ createMenu = function()
 	return g
 end
 
+hitEnemy = function(enemy)
+
+    enemy.healt = enemy.healt - 1
+    
+    if enemy.healt <= 0 then
+        transition.cancel( enemy )
+    end
+end
+
 onGlobalCollision = function( e )
+    -- print(e.object1.type, e.object2.type)
+    
+    local enemy = {}
+    if e.object1.type == "enemy" then enemy = e.object1 
+    elseif e.object2.type == "enemy" then enemy = e.object2 end
+    hitEnemy(enemy)
+    
+    if e.object1.type == "bullet" then
+        transition.cancel( e.object1 )
+    elseif e.object2.type == "bullet" then
+        transition.cancel( e.object2 )
+    end
 end
 
 onFrame = function( e )
     local bullet = display.newRect( M.player.x, M.player.y, 10, 20 )
-    Physics.addBody ( bullet, "kinematic", {density=0.1, friction=0, bounce=0.0} )
-    bullet.isBullet = true
-    bullet.isSensor = true
+    Physics.addBody ( bullet, "dynamic", {isSensor = true, density = 1.0, friction = 0.3, bounce = 0.2} )
+    M:insert(bullet)
     bullet.type = 'bullet'
-    -- bullet:setLinearVelocity( 0, -2000 )
-    
     
     bullet.trans =  transition.to( bullet, { x=bullet.x, time=bulletSpeed, y=bulletReach,
         onStart =
@@ -69,9 +87,9 @@ onFrame = function( e )
                 end ,
         onCancel =
                 function()
+                    -- print("bullet removed onCancel")
                     bullet:removeSelf()
                     bullet = nil
-                    -- print("bullet removed onCancel")
                 end ,
         onComplete =
                 function()
@@ -88,10 +106,10 @@ releaseEnemies = function(e)
     for  i= 0, 4 do
     
         local enemy = display.newRect((MIDDLE_WIDTH / 4) + 60 * i, 0, 50, 50)
-        Physics.addBody(enemy, "kinematic", {density=0.1, friction=0, bounce=0.0} )
-        enemy.isenemy = true
-        enemy.isSensor = true
+        Physics.addBody(enemy, "dynamic", {isSensor = true, density = 1.0, friction = 0.3, bounce = 0.2} )
+        M:insert(enemy)
         enemy.type = 'enemy'
+        enemy.healt = 2
         
         enemy.trans = transition.to( enemy, { x=enemy.x, time=M.speed, y=SH,
             onStart =
@@ -102,13 +120,13 @@ releaseEnemies = function(e)
                     function()
                         enemy:removeSelf()
                         enemy = nil
-                        -- print("bullet removed onCancel")
+                        print("enemy removed onCancel")
                     end ,
             onComplete =
                     function()
                         enemy:removeSelf()
                         enemy = nil
-                        -- print("bullet removed onComplete")
+                        -- print("enemy removed onComplete")
                     end
                 })
         enemies[#enemies+1] = enemy
@@ -158,9 +176,9 @@ function M:new()
 
 	-- Listeners
 	Runtime:addEventListener( "enterFrame", onFrame )
-	Runtime:addEventListener( "collision", onGlobalCollision )
 	Runtime:addEventListener( "touch", onTouch )
     timer.performWithDelay( M.speed, releaseEnemies, -1)
+	Runtime:addEventListener( "collision", onGlobalCollision )
 end
 
 return M
