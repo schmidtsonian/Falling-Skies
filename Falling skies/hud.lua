@@ -60,7 +60,6 @@ hitEnemy = function(enemy)
 end
 
 onGlobalCollision = function( e )
-    -- print(e.object1.type, e.object2.type)
     
     local enemy = {}
     if e.object1.type == "enemy" then enemy = e.object1 
@@ -87,7 +86,6 @@ onFrame = function( e )
                 end ,
         onCancel =
                 function()
-                    -- print("bullet removed onCancel")
                     bullet:removeSelf()
                     bullet = nil
                 end ,
@@ -95,7 +93,6 @@ onFrame = function( e )
                 function()
                     bullet:removeSelf()
                     bullet = nil
-                    -- print("bullet removed onComplete")
                 end
             })
     bullets[#bullets+1] = bullet
