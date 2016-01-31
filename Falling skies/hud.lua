@@ -5,6 +5,44 @@
 
 ]]--
 
+
+
+function print_r ( t )  
+    local print_r_cache={}
+    local function sub_print_r(t,indent)
+        if (print_r_cache[tostring(t)]) then
+            print(indent.."*"..tostring(t))
+        else
+            print_r_cache[tostring(t)]=true
+            if (type(t)=="table") then
+                for pos,val in pairs(t) do
+                    if (type(val)=="table") then
+                        print(indent.."["..pos.."] => "..tostring(t).." {")
+                        sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
+                        print(indent..string.rep(" ",string.len(pos)+6).."}")
+                    elseif (type(val)=="string") then
+                        print(indent.."["..pos..'] => "'..val..'"')
+                    else
+                        print(indent.."["..pos.."] => "..tostring(val))
+                    end
+                end
+            else
+                print(indent..tostring(t))
+            end
+        end
+    end
+    if (type(t)=="table") then
+        print(tostring(t).." {")
+        sub_print_r(t,"  ")
+        print("}")
+    else
+        sub_print_r(t,"  ")
+    end
+    print()
+end
+
+
+
 local M = display.newGroup()
 
 -- Initial settings
@@ -13,7 +51,7 @@ M.speed = 1000
 
 -- Bullets
 local bullets = {}
-local bulletSpeed = 350
+local bulletSpeed = 550
 local bulletReach = -50
 
 -- Enemy
@@ -25,14 +63,17 @@ local enemiesReach = SH + 100
 local createPlayer, createChunks, createBg, createMenu, releaseEnemies
 
 -- Events
-local onGlobalCollision, onFrame, onTouch
+local onGlobalCollision, shoot, onTouch, onCollision
+
+local player
 
 createPlayer = function()
-	local g = display.newGroup()
+    player = display.newRect( M, MIDDLE_WIDTH, SH_VIEW - 20, 50, 50 )
+	
+    Physics.addBody( player, "dynamic", {isSensor = false, density = 1.0, friction = 1, bounce = 0} )
 
-	g.body = display.newRect( g, 0, 0, 50, 50 )
-    g.halfWidth = g.body.width / 2
-	return g
+    player.halfWidth = player.width / 2
+    player.type = "player"
 end
 
 createChunks = function()
@@ -50,32 +91,37 @@ createMenu = function()
 	return g
 end
 
-hitEnemy = function(enemy)
+hitEnemy = function(self)
 
-    enemy.healt = enemy.healt - 1
+    -- if self.healt == nil then return end
     
-    if enemy.healt <= 0 then
-        transition.cancel( enemy )
+    self.healt = self.healt - 1
+    
+    if self.healt <= 0 then
+        transition.cancel( self )
     end
 end
+
 
 onGlobalCollision = function( e )
     
-    local enemy = {}
-    if e.object1.type == "enemy" then enemy = e.object1 
-    elseif e.object2.type == "enemy" then enemy = e.object2 end
-    hitEnemy(enemy)
+    if e.object1.type == "enemy" and e.object2.type == "bullet" then hitEnemy(e.object1) transition.cancel(e.object2)
+    elseif e.object2.type == "enemy" and e.object1.type == "bullet" then hitEnemy(e.object2) transition.cancel(e.object1)
     
-    if e.object1.type == "bullet" then
-        transition.cancel( e.object1 )
-    elseif e.object2.type == "bullet" then
-        transition.cancel( e.object2 )
+    elseif e.object1.type == "player" then print(e.object1.type, "dead!")
+    elseif e.object2.type == "player" then print(e.object2.type, "dead!!")
     end
+    
 end
 
-onFrame = function( e )
-    local bullet = display.newRect( M.player.x, M.player.y, 10, 20 )
-    Physics.addBody ( bullet, "dynamic", {isSensor = true, density = 1.0, friction = 0.3, bounce = 0.2} )
+onCollision = function (self, e)
+
+    -- print(self, e, "aaa")
+end
+
+shoot = function( e )
+    local bullet = display.newRect( player.x, player.y - 80, 10, 20 )
+    Physics.addBody ( bullet, "kynematic", {isSensor = true, density = 1.0, friction = 1, bounce = 0} )
     M:insert(bullet)
     bullet.type = 'bullet'
     
@@ -103,7 +149,7 @@ releaseEnemies = function(e)
     for  i= 0, 4 do
     
         local enemy = display.newRect((MIDDLE_WIDTH / 4) + 60 * i, 0, 50, 50)
-        Physics.addBody(enemy, "dynamic", {isSensor = true, density = 1.0, friction = 0.3, bounce = 0.2} )
+        Physics.addBody(enemy, "dynamic", {radiys= 50, isSensor = true, density = 1.0, friction = 1, bounce = 0} )
         M:insert(enemy)
         enemy.type = 'enemy'
         enemy.healt = 2
@@ -117,13 +163,11 @@ releaseEnemies = function(e)
                     function()
                         enemy:removeSelf()
                         enemy = nil
-                        print("enemy removed onCancel")
                     end ,
             onComplete =
                     function()
                         enemy:removeSelf()
                         enemy = nil
-                        -- print("enemy removed onComplete")
                     end
                 })
         enemies[#enemies+1] = enemy
@@ -133,16 +177,16 @@ end
 onTouch = function(e)
     if e.phase == "began" then
         
-        M.player.markX = M.player.x    -- store x location of object
+        player.markX = player.x    -- store x location of object
     elseif e.phase == "moved" then
 
-        local x = (e.x - e.xStart) + M.player.markX
-        if x < M.player.halfWidth then
-            x = M.player.halfWidth;
-        elseif x > SW - M.player.halfWidth then
-            x = SW-M.player.halfWidth
+        local x = (e.x - e.xStart) + player.markX
+        if x < player.halfWidth then
+            x = player.halfWidth;
+        elseif x > SW - player.halfWidth then
+            x = SW-player.halfWidth
         end
-        M.player.x = x 
+        player.x = x 
     end
 
     return true
@@ -155,9 +199,9 @@ function M:new()
 	self.bg = createBg()
 
 	-- Setup player
-	self.player = createPlayer()
-	self.player.x = MIDDLE_WIDTH
-	self.player.y = SH_VIEW - 20
+	createPlayer()
+	-- player.x = MIDDLE_WIDTH
+	-- player.y = SH_VIEW - 20
 
 	-- Setup chunks
 	self.chunks = createChunks()
@@ -167,15 +211,17 @@ function M:new()
 
 	-- Setup positions
 	self:insert( self.bg )
-	self:insert( self.player )
+	-- self:insert( player )
 	self:insert( self.chunks )
 	self:insert( self.menu )
 
 	-- Listeners
-	Runtime:addEventListener( "enterFrame", onFrame )
 	Runtime:addEventListener( "touch", onTouch )
-    timer.performWithDelay( M.speed, releaseEnemies, -1)
 	Runtime:addEventListener( "collision", onGlobalCollision )
+    -- self.player.collision = onCollision
+    -- self:addEventListener( "collision", self.player )
+    timer.performWithDelay( 150, shoot, -1 )
+    timer.performWithDelay( M.speed, releaseEnemies, -1)
 end
 
 return M
