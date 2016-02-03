@@ -59,20 +59,24 @@ local enemies = {}
 local enemiesSpeed = 200
 local enemiesReach = SH + 100
 
+-- Player
+local player
+
 -- Functions
 local createPlayer, createChunks, createBg, createMenu, releaseEnemies, pause, onDead
 
 -- Events
 local onGlobalCollision, shoot, onTouch, onCollision
 
-local player
-
 -- Timers
 local timerShooting, timerEnemies
 
+local isPause = fale;
 
 pause = function()
 
+    isPause = true;
+    
     timer.pause( timerShooting )
     timer.pause( timerEnemies )
     
@@ -208,6 +212,9 @@ releaseEnemies = function(e)
 end
 
 onTouch = function(e)
+
+    if isPause then return end
+    
     if e.phase == "began" then
         
         player.markX = player.x    -- store x location of object
