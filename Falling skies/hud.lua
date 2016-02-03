@@ -47,7 +47,7 @@ local M = display.newGroup()
 
 -- Initial settings
 M.level = 1
-M.speed = 1000
+M.speed = 3000
 
 -- Bullets
 local bullets = {}
@@ -91,11 +91,12 @@ createMenu = function()
 	return g
 end
 
-hitEnemy = function(self)
+handleEnemy = function(self)
 
     -- if self.healt == nil then return end
     
     self.healt = self.healt - 1
+    self.text.text = self.healt 
     
     if self.healt <= 0 then
         transition.cancel( self )
@@ -105,8 +106,8 @@ end
 
 onGlobalCollision = function( e )
     
-    if e.object1.type == "enemy" and e.object2.type == "bullet" then hitEnemy(e.object1) transition.cancel(e.object2)
-    elseif e.object2.type == "enemy" and e.object1.type == "bullet" then hitEnemy(e.object2) transition.cancel(e.object1)
+    if e.object1.type == "enemy" and e.object2.type == "bullet" then handleEnemy(e.object1) transition.cancel(e.object2)
+    elseif e.object2.type == "enemy" and e.object1.type == "bullet" then handleEnemy(e.object2) transition.cancel(e.object1)
     
     elseif e.object1.type == "player" then print(e.object1.type, "dead!")
     elseif e.object2.type == "player" then print(e.object2.type, "dead!!")
@@ -154,18 +155,24 @@ releaseEnemies = function(e)
         enemy.type = 'enemy'
         enemy.healt = 2
         
-        enemy.trans = transition.to( enemy, { x=enemy.x, time=M.speed, y=SH,
+        enemy.text = display.newText( enemy.healt, enemy.x, enemy.y, native.systemFontBold, 32 )
+        enemy.text:setFillColor( 0, 0, 0 )
+        
+        enemy.trans1 = transition.to( enemy.text, { x=enemy.x, time=M.speed, y=SH } )
+        enemy.trans2 = transition.to( enemy, { x=enemy.x, time=M.speed, y=SH,
             onStart =
                     function()
                         -- play sound
                     end ,
             onCancel =
                     function()
+                        enemy.text:removeSelf()
                         enemy:removeSelf()
                         enemy = nil
                     end ,
             onComplete =
                     function()
+                        enemy.text:removeSelf()
                         enemy:removeSelf()
                         enemy = nil
                     end
