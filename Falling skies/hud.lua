@@ -120,11 +120,31 @@ createBg = function()
 	return g
 end
 
+local function handleButtonEvent( event )
+
+    if ( "ended" == event.phase ) then
+        pause()
+    end
+end
+
 createMenu = function()
 	local g = display.newGroup()
     
-    g.btMenu = bt(M, "PAUSE", 60, 30)
-    g.btMenu.x = SW_VIEW - 40
+    -- g.btMenu = bt(M, "PAUSE", 60, 30)
+    g.btMenu = Widget.newButton( {
+        left = 0,
+        top = 0,
+        id = "button1",
+        label = "|| ||",
+        emboss = false,
+        shape = "roundedRect",
+        width = 30,
+        height = 30,
+        cornerRadius = 0,
+        fillColor = { default={1,1,1,1}, over={1,0.1,0.7,0.4} },
+        onEvent = handleButtonEvent
+    } )
+    g.btMenu.x = SW_VIEW - 25
     g.btMenu.y = SH_VIEW_ORIGIN + 25
     
 	return g

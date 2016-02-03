@@ -18,30 +18,3 @@ SH_VIEW = SH; if SH_VIEW_ORIGIN < 0 then SH_VIEW = SH + ( SH_VIEW_ORIGIN * -1 ) 
 
 FONT_NORMAL = native.systemFont
 FONT_BOLD = native.systemFontBold
-
-_doTransitionBt = function( params )
-	local object, xTarget, yTarget, time_delay = 
-		params.object, params.xTarget, params.yTarget, params.time_delay
-	object.x = -200
-	object.y = SH + 200
-
-	tnt:newTransition( object, { x = xTarget, y = yTarget, time = 600, delay = time_delay } )
-end
-
--- Create a button with thext
--- return	Group
-bt = function( mainGroup, txt, w, h )
-	local g = display.newGroup()
-	local width = w or 150
-	local height = h or 150
-	g.bt = display.newRect( g, 0, 0, width, height )
-	g.bt:setFillColor( 1, 1, 1 )
-
-	g.txt = display.newText( g, txt, g.bt.x, g.bt.y, FONT_BOLD, 12 )
-    g.txt:setFillColor(0, 0, 0)
-	
-	
-	mainGroup:insert( g )
-
-	return g
-end
