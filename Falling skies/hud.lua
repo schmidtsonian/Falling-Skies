@@ -59,13 +59,30 @@ local enemies = {}
 local enemiesSpeed = 200
 local enemiesReach = SH + 100
 
--- Objects
-local createPlayer, createChunks, createBg, createMenu, releaseEnemies
+-- Functions
+local createPlayer, createChunks, createBg, createMenu, releaseEnemies, pause, onDead
 
 -- Events
 local onGlobalCollision, shoot, onTouch, onCollision
 
 local player
+
+-- Timers
+local timerShooting, timerEnemies
+
+
+pause = function()
+
+    timer.pause( timerShooting )
+    timer.pause( timerEnemies )
+    -- for pos,val in pairs(enemies) do
+    -- end
+end
+
+onDead = function()
+    print("game over")
+    pause();
+end
 
 createPlayer = function()
     player = display.newRect( M, MIDDLE_WIDTH, SH_VIEW - 20, 50, 50 )
@@ -109,8 +126,8 @@ onGlobalCollision = function( e )
     if e.object1.type == "enemy" and e.object2.type == "bullet" then handleEnemy(e.object1) transition.cancel(e.object2)
     elseif e.object2.type == "enemy" and e.object1.type == "bullet" then handleEnemy(e.object2) transition.cancel(e.object1)
     
-    elseif e.object1.type == "player" then print(e.object1.type, "dead!")
-    elseif e.object2.type == "player" then print(e.object2.type, "dead!!")
+    elseif e.object1.type == "player" then onDead() 
+    elseif e.object2.type == "player" then onDead()
     end
     
 end
@@ -227,8 +244,8 @@ function M:new()
 	Runtime:addEventListener( "collision", onGlobalCollision )
     -- self.player.collision = onCollision
     -- self:addEventListener( "collision", self.player )
-    timer.performWithDelay( 150, shoot, -1 )
-    timer.performWithDelay( M.speed, releaseEnemies, -1)
+    timerShooting = timer.performWithDelay( 150, shoot, -1 )
+    timerEnemies = timer.performWithDelay( M.speed, releaseEnemies, -1)
 end
 
 return M
