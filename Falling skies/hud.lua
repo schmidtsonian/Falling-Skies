@@ -75,6 +75,15 @@ pause = function()
 
     timer.pause( timerShooting )
     timer.pause( timerEnemies )
+    
+    for i,enemy in pairs(enemies) do
+        transition.pause(enemy.transBody)
+        transition.pause(enemy.transText)
+    end
+    
+    for i,bullet in pairs(bullets) do
+        transition.pause(bullet.trans)
+    end
     -- for pos,val in pairs(enemies) do
     -- end
 end
@@ -175,8 +184,8 @@ releaseEnemies = function(e)
         enemy.text = display.newText( enemy.healt, enemy.x, enemy.y, native.systemFontBold, 32 )
         enemy.text:setFillColor( 0, 0, 0 )
         
-        enemy.trans1 = transition.to( enemy.text, { x=enemy.x, time=M.speed, y=SH } )
-        enemy.trans2 = transition.to( enemy, { x=enemy.x, time=M.speed, y=SH,
+        enemy.transText = transition.to( enemy.text, { x=enemy.x, time=M.speed, y=SH } )
+        enemy.transBody = transition.to( enemy, { x=enemy.x, time=M.speed, y=SH,
             onStart =
                     function()
                         -- play sound
