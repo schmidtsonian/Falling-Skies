@@ -16,13 +16,8 @@ SH_VIEW_ORIGIN = display.screenOriginY
 SW_VIEW = SW; if SW_VIEW_ORIGIN < 0 then SW_VIEW = SW + ( SW_VIEW_ORIGIN * -1 ) end
 SH_VIEW = SH; if SH_VIEW_ORIGIN < 0 then SH_VIEW = SH + ( SH_VIEW_ORIGIN * -1 ) end
 
-FONT_1 = native.systemFont
-
-_cleanTransitions = function()
-	tnt:cancelAllTransitions()
-	tnt:cancelAllTimers()
-	tnt:cleanTimersAndTransitions()
-end
+FONT_NORMAL = native.systemFont
+FONT_BOLD = native.systemFontBold
 
 _doTransitionBt = function( params )
 	local object, xTarget, yTarget, time_delay = 

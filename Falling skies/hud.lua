@@ -99,6 +99,8 @@ end
 
 createPlayer = function()
     player = display.newRect( M, MIDDLE_WIDTH, SH_VIEW - 20, 50, 50 )
+    player.anchorX = 0.5
+    player.anchorY = 0.5
 	
     Physics.addBody( player, "dynamic", {isSensor = false, density = 1.0, friction = 1, bounce = 0} )
 
@@ -221,10 +223,10 @@ onTouch = function(e)
     elseif e.phase == "moved" then
 
         local x = (e.x - e.xStart) + player.markX
-        if x < player.halfWidth then
-            x = player.halfWidth;
-        elseif x > SW - player.halfWidth then
-            x = SW-player.halfWidth
+        if x < SW_VIEW_ORIGIN + player.halfWidth then
+            x = SW_VIEW_ORIGIN + player.halfWidth;
+        elseif x > SW_VIEW - player.halfWidth then
+            x = SW_VIEW - player.halfWidth
         end
         player.x = x 
     end
