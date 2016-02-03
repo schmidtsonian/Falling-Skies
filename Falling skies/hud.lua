@@ -59,6 +59,8 @@ local enemies = {}
 local enemiesSpeed = 200
 local enemiesReach = SH + 100
 
+
+
 -- Player
 local player
 
@@ -120,18 +122,21 @@ end
 
 createMenu = function()
 	local g = display.newGroup()
+    
+    g.btMenu = bt(M, "PAUSE", 60, 30)
+    g.btMenu.x = SW_VIEW - 40
+    g.btMenu.y = SH_VIEW_ORIGIN + 25
+    
 	return g
 end
 
-handleEnemy = function(self)
-
-    -- if self.healt == nil then return end
+handleEnemy = function(enemy)
     
-    self.healt = self.healt - 1
-    self.text.text = self.healt 
+    enemy.healt = enemy.healt - 1
+    enemy.text.text = enemy.healt 
     
-    if self.healt <= 0 then
-        transition.cancel( self )
+    if enemy.healt <= 0 then
+        transition.cancel( enemy )
     end
 end
 
@@ -250,6 +255,10 @@ function M:new()
 
 	-- Setup menu
 	self.menu = createMenu()
+
+
+    -- Setup pause
+
 
 	-- Setup positions
 	self:insert( self.bg )

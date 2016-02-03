@@ -30,19 +30,16 @@ end
 
 -- Create a button with thext
 -- return	Group
-_createBt = function( mainGroup, txt, w )
+bt = function( mainGroup, txt, w, h )
 	local g = display.newGroup()
 	local width = w or 150
-	g.bt = display.newRect( g, 0, 0, width, 50 )
-	g.bt:setFillColor( 0, 0, 0 )
-	g.bt:setReferencePoint( display.CenterReferencePoint )
+	local height = h or 150
+	g.bt = display.newRect( g, 0, 0, width, height )
+	g.bt:setFillColor( 1, 1, 1 )
 
-	g.txt = display.newText( g, txt, 0, 0, FONT_1, 24 )
-	g.txt:setReferencePoint( display.CenterReferencePoint )
-	g.txt.x = g.bt.x
-	g.txt.y = g.bt.y
+	g.txt = display.newText( g, txt, g.bt.x, g.bt.y, FONT_BOLD, 12 )
+    g.txt:setFillColor(0, 0, 0)
 	
-	g:setReferencePoint( display.CenterReferencePoint )
 	
 	mainGroup:insert( g )
 
