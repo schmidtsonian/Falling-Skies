@@ -1,5 +1,3 @@
-Falling Sies
-
 ![alt tag](https://raw.githubusercontent.com/schmidtsonian/Games/master/logo-falling-skies.png)
 
 
