@@ -5,12 +5,14 @@ local _M = {}
 function _M:new(name, mainGroup, x, y, width, height)
 
     -- handler
-    local player = {}
-    player.isPaused = true
+    local handler = {}
+    handler.isPaused = false
+    handler.bulletSpeed = 550
+    handler.bulletReach = -50
     
     local body = {}
     local bullets = {}
-    local timerShooting
+    local timerShoot
 
     -- body
     body = display.newRect( mainGroup , x, y, width, height )
@@ -21,14 +23,14 @@ function _M:new(name, mainGroup, x, y, width, height)
     Physics.addBody( body, "dynamic", {isSensor = false, density = 1.0, friction = 1, bounce = 0} )
     
     -- priva methods
-    local shoot = function()
+    local function shoot()
     
         local bullet = display.newRect( body.x, body.y - 80, 10, 20 )
         mainGroup:insert(bullet)
         Physics.addBody ( bullet, "kynematic", {isSensor = true, density = 1.0, friction = 1, bounce = 0} )
         bullet.name = 'bullet'
         
-        bullet.trans =  transition.to( bullet, { x = bullet.x, time = bulletSpeed, y = bulletReach,
+        bullet.trans =  transition.to( bullet, { x = bullet.x, time = handler.bulletSpeed, y = handler.bulletReach,
             onStart =
                     function()
                         -- play sound
@@ -47,9 +49,9 @@ function _M:new(name, mainGroup, x, y, width, height)
         bullets[#bullets+1] = bullet
     end
     
-    local move = function()
+    local function move()
     
-        if player.isPaused then return false end
+        if handler.isPaused then return false end
     
         if e.phase == "began" then
             
@@ -72,26 +74,31 @@ function _M:new(name, mainGroup, x, y, width, height)
     
     
     -- public methods
-    player:pause = function()
+    function handler:pause()
         
         self.isPaused = true
-        timer.pause( timerShooting )
+        timer.pause( timerShoot )
+        
+        for i,bullet in pairs(bullets) do
+            transition.pause(bullet.trans)
+        end
     end
 
-    player:resume = function()
+     function handler:resume()
 
-        timer.resume(timerShooting)
+        timer.resume(timerShoot)
         self.isPaused = false
     end
     
-    player:start = function()
+    function handler:start()
         
-        timerShooting = timer.performWithDelay( 150, shoot, -1 )
+        timerShoot = timer.performWithDelay( 150, shoot, -1 )
         Runtime:addEventListener( "touch", move )
+        
+        self.pause()
     end
-
     
-    return player
+    return handler
 end
 
 return _M
