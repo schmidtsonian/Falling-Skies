@@ -49,7 +49,7 @@ function _M:new(name, mainGroup, x, y, width, height)
         bullets[#bullets+1] = bullet
     end
     
-    local function move()
+    local function move(e)
     
         if handler.isPaused then return false end
     
@@ -75,8 +75,8 @@ function _M:new(name, mainGroup, x, y, width, height)
     
     -- public methods
     function handler:pause()
-        
-        self.isPaused = true
+
+        handler.isPaused = true
         timer.pause( timerShoot )
         
         for i,bullet in pairs(bullets) do
@@ -87,7 +87,7 @@ function _M:new(name, mainGroup, x, y, width, height)
      function handler:resume()
 
         timer.resume(timerShoot)
-        self.isPaused = false
+        handler.isPaused = false
     end
     
     function handler:start()
@@ -95,7 +95,7 @@ function _M:new(name, mainGroup, x, y, width, height)
         timerShoot = timer.performWithDelay( 150, shoot, -1 )
         Runtime:addEventListener( "touch", move )
         
-        self.pause()
+        handler.pause()
     end
     
     return handler

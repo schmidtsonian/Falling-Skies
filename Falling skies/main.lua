@@ -9,7 +9,7 @@ require "lib.Common"
 easingx = require "lib.Easing"
 -- tnt = require "class.Transitions"
 Physics = require "physics"
-Hud = require "Hud"
+Hud = require "scenes.Hud"
 Widget = require "widget"
 
 Physics.start()
