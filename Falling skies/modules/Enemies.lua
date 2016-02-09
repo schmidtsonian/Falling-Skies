@@ -6,7 +6,7 @@ function _M:new(name, mainGroup)
     handler.isPaused = false
     handler.speed = 3000
     handler.enemiesSpeed = 3000
-    handler.enemiesReach = SH + 100
+    handler.enemiesReach = SH_VIEW + 100
     
     local enemies = {}
     local timerDisplayEnemies
@@ -15,7 +15,7 @@ function _M:new(name, mainGroup)
         
         for  i= 0, 4 do
     
-            local enemy = display.newRect((MIDDLE_WIDTH / 4) + 60 * i, 0, 50, 50)
+            local enemy = display.newRect((MIDDLE_WIDTH / 4) + 60 * i, -100, 50, 50)
             Physics.addBody(enemy, "dynamic", {radiys= 50, isSensor = true, density = 1.0, friction = 1, bounce = 0} )
             mainGroup:insert(enemy)
             enemy.name = name
@@ -25,8 +25,8 @@ function _M:new(name, mainGroup)
             mainGroup:insert(enemy.text)
             enemy.text:setFillColor( 0, 0, 0 )
             
-            enemy.transText = transition.to( enemy.text, { x=enemy.x, time=handler.enemiesSpeed, y=SH } )
-            enemy.transBody = transition.to( enemy, { x=enemy.x, time=handler.enemiesSpeed, y=SH,
+            enemy.transText = transition.to( enemy.text, { x=enemy.x, time=handler.enemiesSpeed, y=handler.enemiesReach } )
+            enemy.transBody = transition.to( enemy, { x=enemy.x, time=handler.enemiesSpeed, y=handler.enemiesReach,
                 onStart =
                         function()
                             -- play sound

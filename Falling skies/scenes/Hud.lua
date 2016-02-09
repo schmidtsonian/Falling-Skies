@@ -17,8 +17,13 @@ Enemies = require "modules.Enemies"
 local player, enemies
 
 -- events
-local onGlobalCollision
+local onGlobalCollision, onDead
 
+onDead = function()
+    print("game over")
+    player:pause();
+    enemies:pause();
+end
 
 onGlobalCollision = function( e )
     
@@ -37,8 +42,8 @@ onGlobalCollision = function( e )
     if e.object1.name == "enemy" and e.object2.name == "bullet" then handleEnemy(e.object1) transition.cancel(e.object2)
     elseif e.object2.name == "enemy" and e.object1.name == "bullet" then handleEnemy(e.object2) transition.cancel(e.object1)
     
-    elseif e.object1.name == "player" then --[[onDead()]]-- 
-    elseif e.object2.name == "player" then --[[onDead()]]--
+    elseif e.object1.name == "player" then onDead() 
+    elseif e.object2.name == "player" then onDead()
     end
     
 end
