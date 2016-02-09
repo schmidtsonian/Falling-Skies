@@ -3,9 +3,9 @@ local _M = {}
 function _M:new(name, mainGroup)
     
     local handler = {}
-    handler.isPaused = false;
-    haldler.speed = 3000
-    handler.enemiesSpeed = 200
+    handler.isPaused = false
+    handler.speed = 3000
+    handler.enemiesSpeed = 3000
     handler.enemiesReach = SH + 100
     
     local enemies = {}
@@ -22,10 +22,11 @@ function _M:new(name, mainGroup)
             enemy.healt = 2
             
             enemy.text = display.newText( enemy.healt, enemy.x, enemy.y, native.systemFontBold, 32 )
+            mainGroup:insert(enemy.text)
             enemy.text:setFillColor( 0, 0, 0 )
             
-            enemy.transText = transition.to( enemy.text, { x=enemy.x, time=M.speed, y=SH } )
-            enemy.transBody = transition.to( enemy, { x=enemy.x, time=M.speed, y=SH,
+            enemy.transText = transition.to( enemy.text, { x=enemy.x, time=handler.enemiesSpeed, y=SH } )
+            enemy.transBody = transition.to( enemy, { x=enemy.x, time=handler.enemiesSpeed, y=SH,
                 onStart =
                         function()
                             -- play sound
@@ -50,7 +51,7 @@ function _M:new(name, mainGroup)
     -- public methods
     function handler:pause()
         
-        self.isPaused = true
+        handler.isPaused = true
         timer.pause( timerDisplayEnemies ) 
         
         for i,enemy in pairs(enemies) do
@@ -62,13 +63,13 @@ function _M:new(name, mainGroup)
      function handler:resume()
 
         timer.resume(timerDisplayEnemies)
-        self.isPaused = false
+        handler.isPaused = false
     end
     
     function handler:start()
         
         timerDisplayEnemies = timer.performWithDelay( handler.speed, releaseEnemies, -1)
-        self.pause()
+        handler.pause()
     end
     
     return handler
