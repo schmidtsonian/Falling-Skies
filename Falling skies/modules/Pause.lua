@@ -1,12 +1,12 @@
 local _M = {}
 
-function _M:new()
+function _M:new(handleButtonEvent)
 
     local handler = {}
     handler.isPause = true;
     handler.bt = Widget.newButton( {
-        left = SW_VIEW - 25,
-        top = SH_VIEW_ORIGIN + 25,
+        left = SW_VIEW - 50,
+        top = SH_VIEW_ORIGIN + 50,
         id = "btPause",
         label = "|| ||",
         emboss = false,

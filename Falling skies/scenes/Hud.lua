@@ -13,16 +13,24 @@ M.speed = 3000
 -- modules
 Player = require "modules.Player"
 Enemies = require "modules.Enemies"
+Pause = require "modules.Pause"
 
-local player, enemies
+local player, enemies, pause
 
 -- events
-local onGlobalCollision, onDead
+local onGlobalCollision, onDead, onPause
 
 onDead = function()
     print("game over")
-    player:pause();
-    enemies:pause();
+    player:pause()
+    enemies:pause()
+end
+
+onPause = function()
+    
+    player:pause()
+    enemies:pause()
+    pause:open()
 end
 
 onGlobalCollision = function( e )
@@ -38,7 +46,6 @@ onGlobalCollision = function( e )
         end
     end
 
-
     if e.object1.name == "enemy" and e.object2.name == "bullet" then handleEnemy(e.object1) transition.cancel(e.object2)
     elseif e.object2.name == "enemy" and e.object1.name == "bullet" then handleEnemy(e.object2) transition.cancel(e.object1)
     
@@ -52,6 +59,7 @@ end
 function M:new()
     player = Player:new("player", M, MIDDLE_WIDTH, SH_VIEW - 20, 50, 50)
     enemies = Enemies:new("enemy", M)
+    pause = Pause:new(onPause)
     
     player:start()
     enemies:start()
