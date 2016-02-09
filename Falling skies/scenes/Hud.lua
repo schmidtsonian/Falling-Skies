@@ -15,22 +15,26 @@ Player = require "modules.Player"
 Enemies = require "modules.Enemies"
 Pause = require "modules.Pause"
 
-local player, enemies, pause
+local player, enemies, pause, pauseAll
 
 -- events
 local onGlobalCollision, onDead, onPause
 
 onDead = function()
+    
     print("game over")
-    player:pause()
-    enemies:pause()
+    pauseAll()
 end
 
 onPause = function()
     
+    pauseAll()
+    pause:open()
+end
+
+pauseAll = function()
     player:pause()
     enemies:pause()
-    pause:open()
 end
 
 onGlobalCollision = function( e )
@@ -63,7 +67,6 @@ function M:new()
     
     player:start()
     enemies:start()
-    
     
     player:resume()
     enemies:resume()
