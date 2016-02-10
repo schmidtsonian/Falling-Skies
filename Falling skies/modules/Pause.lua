@@ -19,10 +19,11 @@ function _M:new(mainGroup, handleButtonEvent)
     } )
     mainGroup:insert(handler.bt)
     handler.onResume = function() end
+    handler.onRestart = function() end
     
     local btHome, btRestart, btResume, barCenter, bar1, bar2, bar3, bar4
     
-    function handler:close()
+    local function closeAll()
         print("pause close")
         overlay.x = display.actualContentWidth * -1
         barCenter.x = MIDDLE_WIDTH -1600
@@ -35,8 +36,18 @@ function _M:new(mainGroup, handleButtonEvent)
         btResume.x = 1600 - MIDDLE_WIDTH - 90
         btRestart.x = 1600 - MIDDLE_WIDTH
         btHome.x = 1600 - MIDDLE_WIDTH + 60
+    end
+    
+    function handler:close()
         
+        closeAll()
         handler.onResume()
+    end
+    
+    function handler:restart()
+    
+        closeAll()
+        handler.onRestart()
     end
     
     function handler:open()
@@ -92,7 +103,7 @@ function _M:new(mainGroup, handleButtonEvent)
         height = 60,
         cornerRadius = 0,
         fillColor = { default={0,0,0,1}, over={1,1,1,1} },
-        -- onEvent = handler.close
+        onEvent = handler.restart
     } )
     
     btHome = Widget.newButton( {

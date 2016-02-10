@@ -49,6 +49,15 @@ function _M:new(name, mainGroup)
     end
 
     -- public methods
+    function handler:restart()
+        
+        for i,enemy in pairs(enemies) do
+            transition.cancel(enemy.transBody)
+            transition.cancel(enemy.transText)
+        end
+        handler.isPaused = false
+    end
+    
     function handler:pause()
         
         handler.isPaused = true

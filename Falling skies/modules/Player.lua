@@ -74,6 +74,16 @@ function _M:new(name, mainGroup, x, y, width, height)
     
     
     -- public methods
+    function handler:restart()
+        
+        for i,bullet in pairs(bullets) do
+            transition.cancel(bullet.trans)
+        end
+        handler.isPaused = false
+        body.x = x
+        body.y = y
+    end
+    
     function handler:pause()
 
         handler.isPaused = true
