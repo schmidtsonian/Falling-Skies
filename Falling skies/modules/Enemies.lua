@@ -62,6 +62,10 @@ function _M:new(name, mainGroup)
 
      function handler:resume()
 
+        for i,enemy in pairs(enemies) do
+            transition.resume(enemy.transBody)
+            transition.resume(enemy.transText)
+        end
         timer.resume(timerDisplayEnemies)
         handler.isPaused = false
     end

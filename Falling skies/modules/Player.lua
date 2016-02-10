@@ -86,6 +86,9 @@ function _M:new(name, mainGroup, x, y, width, height)
 
      function handler:resume()
 
+        for i,bullet in pairs(bullets) do
+            transition.resume(bullet.trans)
+        end
         timer.resume(timerShoot)
         handler.isPaused = false
     end
