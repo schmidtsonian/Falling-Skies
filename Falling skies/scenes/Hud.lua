@@ -63,7 +63,7 @@ end
 function M:new()
     player = Player:new("player", M, MIDDLE_WIDTH, SH_VIEW - 20, 50, 50)
     enemies = Enemies:new("enemy", M)
-    pause = Pause:new(onPause)
+    pause = Pause:new(M, onPause)
     
     player:start()
     enemies:start()

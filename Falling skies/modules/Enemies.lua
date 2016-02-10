@@ -17,12 +17,12 @@ function _M:new(name, mainGroup)
     
             local enemy = display.newRect((MIDDLE_WIDTH / 4) + 60 * i, -100, 50, 50)
             Physics.addBody(enemy, "dynamic", {radiys= 50, isSensor = true, density = 1.0, friction = 1, bounce = 0} )
-            mainGroup:insert(enemy)
+            mainGroup:insert(1, enemy)
             enemy.name = name
             enemy.healt = 2
             
             enemy.text = display.newText(enemy.healt, enemy.x, enemy.y, native.systemFontBold, 32)
-            mainGroup:insert(enemy.text)
+            mainGroup:insert(2, enemy.text)
             enemy.text:setFillColor(0, 0, 0)
             
             enemy.transText = transition.to(enemy.text, { x = enemy.x, time = handler.enemiesSpeed, y = handler.enemiesReach } )

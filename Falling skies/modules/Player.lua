@@ -26,7 +26,7 @@ function _M:new(name, mainGroup, x, y, width, height)
     local function shoot()
     
         local bullet = display.newRect( body.x, body.y - 80, 10, 20 )
-        mainGroup:insert(bullet)
+        mainGroup:insert(1, bullet)
         Physics.addBody ( bullet, "kynematic", {isSensor = true, density = 1.0, friction = 1, bounce = 0} )
         bullet.name = 'bullet'
         
