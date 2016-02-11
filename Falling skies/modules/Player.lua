@@ -74,14 +74,23 @@ function _M:new(name, mainGroup, x, y, width, height)
     
     
     -- public methods
+    function handler:destroy()
+
+        for i,bullet in pairs(bullets) do
+            transition.cancel(bullet.trans)
+        end
+
+        Runtime:removeEventListener( "touch", move )
+        body:removeSelf()
+    end
+    
     function handler:restart()
         
         for i,bullet in pairs(bullets) do
             transition.cancel(bullet.trans)
         end
         handler.isPaused = false
-        body.x = x
-        body.y = y
+        body.x = MIDDLE_WIDTH
     end
     
     function handler:pause()

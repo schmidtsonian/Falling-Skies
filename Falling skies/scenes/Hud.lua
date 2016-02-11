@@ -4,6 +4,12 @@
 	Description:
 
 ]]--
+local options = {
+    effect = "fade",
+    time = 800,
+    params = { level = 1, kills = 2, bullets = 3 }
+}
+-- composer.gotoScene("scenes.GameOver", options) 
 
 local composer = require "composer"
 local scene = composer.newScene()
@@ -22,6 +28,7 @@ onDead = function()
     
     print("game over")
     pauseAll()
+    composer.gotoScene("scenes.GameOver", options)
 end
 
 onPause = function()
@@ -76,7 +83,7 @@ function scene:create( event )
 
     local sceneGroup = self.view
 
-    player = Player:new("player",sceneGroup, MIDDLE_WIDTH, SH_VIEW - 20, 50, 50)
+    player = Player:new("player", sceneGroup, MIDDLE_WIDTH, SH_VIEW - 20, 50, 50)
     enemies = Enemies:new("enemy", sceneGroup)
     pause = Pause:new(sceneGroup, onPause)
     pause.onResume = resumeAll
@@ -90,15 +97,15 @@ end
 
 function scene:show( event )
 
-
     local sceneGroup = self.view
     local phase = event.phase
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen).
     elseif ( phase == "did" ) then
-        player:resume()
-        enemies:resume()
+        print("----------------scene show HUD did")
+        composer.removeHidden()
+        resumeAll()
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
@@ -125,6 +132,15 @@ end
 function scene:destroy( event )
 
     local sceneGroup = self.view
+    
+    scene:removeEventListener( "create", scene )
+    scene:removeEventListener( "show", scene )
+    scene:removeEventListener( "hide", scene )
+    scene:removeEventListener( "destroy", scene )
+    
+    print("destroy HUD")
+    
+    -- player:destroy()
 
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
