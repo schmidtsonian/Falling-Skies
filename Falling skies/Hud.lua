@@ -23,6 +23,7 @@ local onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
 onGameOver = function()
     
     pauseAll()
+    gameOver:open()
 end
 
 onPause = function()
