@@ -21,7 +21,7 @@ function _M:new(mainGroup, handleButtonEvent)
     handler.onResume = function() end
     handler.onRestart = function() end
     
-    local btHome, btRestart, btResume, barCenter, bar1, bar2, bar3, bar4
+    local btRestart, btResume, barCenter, bar1, bar2, bar3, bar4
     
     local function closeAll()
         print("pause close")
@@ -35,7 +35,6 @@ function _M:new(mainGroup, handleButtonEvent)
         
         btResume.x = 1600 - MIDDLE_WIDTH - 90
         btRestart.x = 1600 - MIDDLE_WIDTH
-        btHome.x = 1600 - MIDDLE_WIDTH + 60
     end
     
     function handler:close()
@@ -60,9 +59,8 @@ function _M:new(mainGroup, handleButtonEvent)
         bar3.x = MIDDLE_WIDTH - 150 
         bar4.x = MIDDLE_WIDTH + 120 
         
-        btResume.x = MIDDLE_WIDTH - 90
-        btRestart.x = MIDDLE_WIDTH
-        btHome.x = MIDDLE_WIDTH + 90
+        btResume.x = MIDDLE_WIDTH - 50
+        btRestart.x = MIDDLE_WIDTH + 50
     end
     
     overlay = display.newRoundedRect(mainGroup, display.actualContentWidth*-1, MIDDLE_HEIGHT, display.actualContentWidth, display.actualContentHeight, 0)
@@ -104,20 +102,6 @@ function _M:new(mainGroup, handleButtonEvent)
         cornerRadius = 0,
         fillColor = { default={0,0,0,1}, over={1,1,1,1} },
         onEvent = handler.restart
-    } )
-    
-    btHome = Widget.newButton( {
-        left = 1600 - MIDDLE_WIDTH + 60,
-        top = MIDDLE_HEIGHT - 30,
-        id = "btHome",
-        label = "Ho",
-        emboss = false,
-        shape = "roundedRect",
-        width = 60,
-        height = 60,
-        cornerRadius = 0,
-        fillColor = { default={0,0,0,1}, over={1,1,1,1} },
-        -- onEvent = handler.close
     } )
     mainGroup:insert(handler.bt)
     
