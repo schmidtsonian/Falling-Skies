@@ -72,18 +72,6 @@ function _M:new(name, mainGroup, x, y, width, height)
         return true
     end
     
-    
-    -- public methods
-    function handler:destroy()
-
-        for i,bullet in pairs(bullets) do
-            transition.cancel(bullet.trans)
-        end
-
-        Runtime:removeEventListener( "touch", move )
-        body:removeSelf()
-    end
-    
     function handler:restart()
         
         for i,bullet in pairs(bullets) do

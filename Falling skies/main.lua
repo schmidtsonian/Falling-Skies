@@ -13,16 +13,18 @@ local composer = require "composer"
 Physics = require "physics"
 Widget = require "widget"
 
-Hud = require "scenes.Hud"
+Hud = require "Hud"
 
 Physics.start()
 Physics.setGravity( 0, 0 )
 
+Hud:new()
+
 -- Initialice
-local options = {
-    effect = "fade",
-    time = 800,
-}
+-- local options = {
+--     effect = "fade",
+--     time = 800,
+-- }
 
 
 local function garbagePrinting()
@@ -35,5 +37,5 @@ local function garbagePrinting()
     print( texMemUsage_str )
 end
 
-Runtime:addEventListener( "enterFrame", garbagePrinting )
-composer.gotoScene("scenes.Hud", options) 
+-- Runtime:addEventListener( "enterFrame", garbagePrinting )
+-- composer.gotoScene("scenes.Hud", options) 
