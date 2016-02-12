@@ -13,7 +13,7 @@ local stats = {
     bullets = 3 
 }
 
-local player, enemies, pause, stats
+local player, enemies, pause, gameOver
 
 local onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
 
@@ -26,8 +26,8 @@ onGameOver = function()
 end
 
 onPause = function()
+    print("pause!")
     pauseAll()
-    pause:open()
 end
 
 pauseAll = function()
@@ -81,9 +81,13 @@ function _M:new()
 
     player = Player:new("player", mainGroup, MIDDLE_WIDTH, SH_VIEW - 20, 50, 50)
     enemies = Enemies:new("enemy", mainGroup)
-    pause = Pause:new(mainGroup, onPause)
+    pause = Pause:new(mainGroup)
+    gameOver = GameOver:new(mainGroup)
+
+    pause.onPause = onPause
     pause.onResume = resumeAll
     pause.onRestart = restartAll
+    gameOver.onRestart = restartAll
     
     player:start()
     enemies:start()

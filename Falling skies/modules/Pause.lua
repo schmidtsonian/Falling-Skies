@@ -1,23 +1,10 @@
 local _M = {}
 
-function _M:new(mainGroup, handleButtonEvent)
+function _M:new(mainGroup)
 
     local handler = {}
     handler.isPause = true
-    handler.bt = Widget.newButton( {
-        left = SW_VIEW - 50,
-        top = SH_VIEW_ORIGIN + 50,
-        id = "btPause",
-        label = "|| ||",
-        emboss = false,
-        shape = "roundedRect",
-        width = 30,
-        height = 30,
-        cornerRadius = 0,
-        fillColor = { default={1,1,1,1}, over={1,0.1,0.7,0.4} },
-        onEvent = handleButtonEvent
-    } )
-    mainGroup:insert(handler.bt)
+    handler.onPause = function() end
     handler.onResume = function() end
     handler.onRestart = function() end
     
@@ -51,6 +38,7 @@ function _M:new(mainGroup, handleButtonEvent)
     
     function handler:open()
         print("pause open")
+        handler.onPause()
         overlay.x = MIDDLE_WIDTH
         
         barCenter.x = MIDDLE_WIDTH
@@ -75,6 +63,19 @@ function _M:new(mainGroup, handleButtonEvent)
     bar3 = display.newRoundedRect(mainGroup, 1600 - MIDDLE_WIDTH - 150, MIDDLE_HEIGHT + 80, display.actualContentWidth, 20, 0)
     bar4 = display.newRoundedRect(mainGroup, 1600 + MIDDLE_WIDTH + 120, MIDDLE_HEIGHT + 120, display.actualContentWidth, 20, 0)
     
+    handler.bt = Widget.newButton( {
+        left = SW_VIEW - 50,
+        top = SH_VIEW_ORIGIN + 50,
+        id = "btPause",
+        label = "|| ||",
+        emboss = false,
+        shape = "roundedRect",
+        width = 30,
+        height = 30,
+        cornerRadius = 0,
+        fillColor = { default={1,1,1,1}, over={1,0.1,0.7,0.4} },
+        onEvent = handler.open
+    } )
     
     btResume = Widget.newButton( {
         left = 1600 - MIDDLE_WIDTH - 130,
@@ -103,7 +104,10 @@ function _M:new(mainGroup, handleButtonEvent)
         fillColor = { default={0,0,0,1}, over={1,1,1,1} },
         onEvent = handler.restart
     } )
+    
     mainGroup:insert(handler.bt)
+    mainGroup:insert(btResume)
+    mainGroup:insert(btRestart)
     
     
     return handler
