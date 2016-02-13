@@ -18,7 +18,7 @@ local onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
 onGameOver = function()
     
     pauseAll()
-    gameOver:open()
+    gameOver:open(stats:getStats())
 end
 
 onPause = function()
@@ -71,8 +71,6 @@ onGlobalCollision = function( e )
     end
     
 end
-
-
 
 
 

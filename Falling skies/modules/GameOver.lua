@@ -15,14 +15,20 @@ function _M:new(mainGroup)
         btRestart.x = MIDDLE_WIDTH - 1600 - 90
     end
     
-    function handler:open()
+    function handler:open(stats)
 
         title.x = MIDDLE_WIDTH
+        overlay.x = MIDDLE_WIDTH
+        btRestart.x = MIDDLE_WIDTH
+        
         level.x = MIDDLE_WIDTH
         kills.x = MIDDLE_WIDTH
         time.x = MIDDLE_WIDTH
-        overlay.x = MIDDLE_WIDTH
-        btRestart.x = MIDDLE_WIDTH
+        
+        
+        level.text = "Level: " .. stats.level
+        kills.text = "Kills: " .. stats.kills
+        time.text = "Time: " .. stats.time
     end
     
     function handler:close()

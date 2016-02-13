@@ -69,6 +69,10 @@ function _M:new(mainGroup)
         timer.pause(timerAlive)
     end
     
+    function handler:getStats()
+        return stats
+    end
+    
     function handler:updateKill()
     
         stats.kills = stats.kills + 1
