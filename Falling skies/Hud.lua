@@ -1,20 +1,15 @@
 local _M = {}
 local mainGroup = display.newGroup()
 
-
+-- modules
 local Player = require "modules.Player"
 local Enemies = require "modules.Enemies"
 local Pause = require "modules.Pause"
 local GameOver = require "modules.GameOver"
+local Stats = require "modules.Stats"
+local player, enemies, pause, gameOver, stats
 
-local stats = { 
-    level = 1, 
-    kills = 2, 
-    bullets = 3 
-}
-
-local player, enemies, pause, gameOver
-
+-- events
 local onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
 
 
@@ -61,6 +56,7 @@ onGlobalCollision = function( e )
         
         if enemy.healt <= 0 then
             transition.cancel( enemy )
+            stats:updateKill()
         end
     end
 
@@ -82,6 +78,8 @@ function _M:new()
 
     player = Player:new("player", mainGroup, MIDDLE_WIDTH, SH_VIEW - 20, 50, 50)
     enemies = Enemies:new("enemy", mainGroup)
+    stats = Stats:new(mainGroup)
+    
     pause = Pause:new(mainGroup)
     gameOver = GameOver:new(mainGroup)
 
@@ -92,6 +90,7 @@ function _M:new()
     
     player:start()
     enemies:start()
+    stats:start()
     
     Runtime:addEventListener( "collision", onGlobalCollision )
     

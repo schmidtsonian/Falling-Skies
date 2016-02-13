@@ -11,7 +11,9 @@ function _M:new(mainGroup)
     local btRestart, btResume, barCenter, bar1, bar2, bar3, bar4
     
     local function closeAll()
-        print("pause close")
+
+        handler.bt.x = SW_VIEW - 35
+        
         overlay.x = display.actualContentWidth * -1
         barCenter.x = MIDDLE_WIDTH -1600
         bar1.x = MIDDLE_WIDTH + 1680 
@@ -37,10 +39,12 @@ function _M:new(mainGroup)
     end
     
     function handler:open()
-        print("pause open")
+
         handler.onPause()
-        overlay.x = MIDDLE_WIDTH
         
+        handler.bt.x = SW_VIEW - 1600
+        
+        overlay.x = MIDDLE_WIDTH
         barCenter.x = MIDDLE_WIDTH
         bar1.x = MIDDLE_WIDTH + 80 
         bar2.x = MIDDLE_WIDTH - 50 

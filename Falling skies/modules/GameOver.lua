@@ -4,13 +4,13 @@ local _M = {}
 function _M:new(mainGroup)
 
     local handler = {}
-    local title, level, kills, bullets, btRestart, overlay
+    local title, level, kills, time, btRestart, overlay
     
     local function closeAll()
         title.x = MIDDLE_WIDTH - 1600
         level.x = MIDDLE_WIDTH - 1600
         kills.x = MIDDLE_WIDTH - 1600
-        bullets.x = MIDDLE_WIDTH - 1600
+        time.x = MIDDLE_WIDTH - 1600
         overlay.x = MIDDLE_WIDTH - 1600
         btRestart.x = MIDDLE_WIDTH - 1600 - 90
     end
@@ -20,7 +20,7 @@ function _M:new(mainGroup)
         title.x = MIDDLE_WIDTH
         level.x = MIDDLE_WIDTH
         kills.x = MIDDLE_WIDTH
-        bullets.x = MIDDLE_WIDTH
+        time.x = MIDDLE_WIDTH
         overlay.x = MIDDLE_WIDTH
         btRestart.x = MIDDLE_WIDTH
     end
@@ -43,7 +43,7 @@ function _M:new(mainGroup)
     title = display.newText("GAME OVER", MIDDLE_WIDTH - 1600, MIDDLE_HEIGHT - 100, FONT_BOLD, 32)
     level = display.newText("Level: " .. 0, MIDDLE_WIDTH - 1600, MIDDLE_HEIGHT - 50, FONT_BOLD, 24)
     kills = display.newText("Kills: " .. 0, MIDDLE_WIDTH - 1600, level.y + 30, FONT_BOLD, 24)
-    bullets = display.newText("Bullets: " .. 0, MIDDLE_WIDTH - 1600, kills.y + 30, FONT_BOLD, 24)
+    time = display.newText("Time: " .. 0, MIDDLE_WIDTH - 1600, kills.y + 30, FONT_BOLD, 24)
     btRestart = Widget.newButton( {
         left = MIDDLE_WIDTH - 1600,
         top = MIDDLE_HEIGHT + 50,
@@ -61,7 +61,7 @@ function _M:new(mainGroup)
     mainGroup:insert(title)
     mainGroup:insert(level)
     mainGroup:insert(kills)
-    mainGroup:insert(bullets)
+    mainGroup:insert(time)
     mainGroup:insert(btRestart)
     
     

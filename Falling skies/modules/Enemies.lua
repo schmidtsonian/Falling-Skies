@@ -21,7 +21,7 @@ function _M:new(name, mainGroup)
             enemy.name = name
             enemy.healt = 2
             
-            enemy.text = display.newText(enemy.healt, enemy.x, enemy.y, native.systemFontBold, 32)
+            enemy.text = display.newText(enemy.healt, enemy.x, enemy.y, FONT_BOLD, 32)
             mainGroup:insert(2, enemy.text)
             enemy.text:setFillColor(0, 0, 0)
             
