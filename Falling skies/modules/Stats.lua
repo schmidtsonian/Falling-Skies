@@ -46,9 +46,10 @@ function _M:new(mainGroup)
     
         setAll()
         timerAlive = timer.performWithDelay(10, updateTime, -1)
+        timer.pause(timerAlive)
     end
     
-    function handler:reset()
+    function handler:restart()
     
         stats = { 
             level = 0, 
@@ -58,12 +59,14 @@ function _M:new(mainGroup)
         setAll()
     end
     
-    -- function
+    function handler:resume()
+    
+        timer.resume(timerAlive)
+    end
     
     function handler:pause()
     
-        stats.level = stats.level + 1
-        txtLevel.text = "Level " .. stats.level
+        timer.pause(timerAlive)
     end
     
     function handler:updateKill()

@@ -29,6 +29,7 @@ end
 pauseAll = function()
     player:pause()
     enemies:pause()
+    stats:pause()
 end
 
 resumeAll = function()
@@ -36,6 +37,7 @@ resumeAll = function()
     print("resume all")
     player:resume()
     enemies:resume()
+    stats:resume()
 end
 
 restartAll = function()
@@ -43,6 +45,7 @@ restartAll = function()
     print("restart all")
     player:restart()
     enemies:restart()
+    stats:restart()
     resumeAll()
 end
 
