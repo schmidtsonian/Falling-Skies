@@ -18,6 +18,7 @@ local onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
 onGameOver = function()
     
     pauseAll()
+    player:dead()
     pause:lock();
     gameOver:open(stats:getStats())
 end

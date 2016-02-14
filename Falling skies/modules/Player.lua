@@ -10,10 +10,12 @@ function _M:new(name, mainGroup, x, y, width, height)
     handler.bulletSpeed = 550
     handler.bulletReach = -50
     
+    
     local body = {}
     local bullets = {}
     local timerShoot
     
+    local deadSound = audio.loadSound( "sfx/Dead.wav" )
     local bulletSound = audio.loadSound( "sfx/Laser_Shoot36.wav" )
 
 
@@ -36,8 +38,6 @@ function _M:new(name, mainGroup, x, y, width, height)
         bullet.trans =  transition.to( bullet, { x = bullet.x, time = handler.bulletSpeed, y = handler.bulletReach,
             onStart =
                     function()
-                        -- play sound
-                        
                         audio.play( bulletSound )
                     end ,
             onCancel =
@@ -60,7 +60,6 @@ function _M:new(name, mainGroup, x, y, width, height)
     
         if e.phase == "began" then
             
-            -- store x location of object
             body.markX = body.x
 
         elseif e.phase == "moved" then
@@ -111,6 +110,10 @@ function _M:new(name, mainGroup, x, y, width, height)
         Runtime:addEventListener( "touch", move )
         
         handler.pause()
+    end
+    
+    function handler:dead()
+        audio.play( deadSound )
     end
     
     return handler
