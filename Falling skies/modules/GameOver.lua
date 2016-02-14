@@ -46,8 +46,8 @@ function _M:new(mainGroup)
     overlay:setFillColor(0)
     overlay.alpha = .9
     
-    title = display.newText("GAME OVER", MIDDLE_WIDTH - 1600, MIDDLE_HEIGHT - 100, FONT_BOLD, 32)
-    level = display.newText("Level: " .. 0, MIDDLE_WIDTH - 1600, MIDDLE_HEIGHT - 50, FONT_BOLD, 24)
+    title = display.newText("FINAL SCORE", MIDDLE_WIDTH - 1600, MIDDLE_HEIGHT - 100, FONT_BOLD, 18)
+    level = display.newText("Level: " .. 0, MIDDLE_WIDTH - 1600, title.y + 30, FONT_BOLD, 24)
     kills = display.newText("Kills: " .. 0, MIDDLE_WIDTH - 1600, level.y + 30, FONT_BOLD, 24)
     time = display.newText("Time: " .. 0, MIDDLE_WIDTH - 1600, kills.y + 30, FONT_BOLD, 24)
     btRestart = Widget.newButton( {

@@ -18,6 +18,7 @@ local onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
 onGameOver = function()
     
     pauseAll()
+    pause:lock();
     gameOver:open(stats:getStats())
 end
 
@@ -34,7 +35,6 @@ end
 
 resumeAll = function()
 
-    print("resume all")
     player:resume()
     enemies:resume()
     stats:resume()
@@ -42,10 +42,10 @@ end
 
 restartAll = function()
 
-    print("restart all")
     player:restart()
     enemies:restart()
     stats:restart()
+    pause:unlock();
     resumeAll()
 end
 

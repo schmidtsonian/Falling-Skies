@@ -24,6 +24,8 @@ function _M:new(mainGroup)
         
         btResume.x = 1600 - MIDDLE_WIDTH - 90
         btRestart.x = 1600 - MIDDLE_WIDTH
+        
+        handler.isPause = false;
     end
     
     function handler:close()
@@ -40,7 +42,10 @@ function _M:new(mainGroup)
     
     function handler:open()
 
+        if handler.isPause == true then return end
+        
         handler.onPause()
+        handler.isPause = true;
         
         handler.bt.x = SW_VIEW - 1600
         
@@ -53,6 +58,14 @@ function _M:new(mainGroup)
         
         btResume.x = MIDDLE_WIDTH - 50
         btRestart.x = MIDDLE_WIDTH + 50
+    end
+    
+    function handler:lock()
+        handler.isPause = true;
+    end
+    
+    function handler:unlock()
+        handler.isPause = false;
     end
     
     overlay = display.newRoundedRect(mainGroup, display.actualContentWidth*-1, MIDDLE_HEIGHT, display.actualContentWidth, display.actualContentHeight, 0)

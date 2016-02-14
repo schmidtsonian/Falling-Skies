@@ -26,14 +26,14 @@ function _M:new(mainGroup)
     local function updateTime()
     
         stats.time = stats.time + 0.00001
-        txtTime.text = "Time " .. stats.time
+        txtTime.text = "Time " .. roundToNthDecimal(01, stats.time)
     end
     
     local function setAll()
     
         txtLevel.text = "Level: " .. stats.level
         txtKills.text = "Kills: " .. stats.kills
-        txtTime.text = "Time: " .. stats.time
+        txtTime.text = "Time: " .. roundToNthDecimal(01, stats.time)
     end
     
     local function updateLevel()

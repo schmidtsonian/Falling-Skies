@@ -19,6 +19,10 @@ SH_VIEW = SH; if SH_VIEW_ORIGIN < 0 then SH_VIEW = SH + ( SH_VIEW_ORIGIN * -1 ) 
 FONT_NORMAL = native.systemFont
 FONT_BOLD = native.systemFontBold
 
+function roundToNthDecimal(num, n)
+  local mult = 10^(n or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
 
 function print_r ( t )  
     local print_r_cache={}
