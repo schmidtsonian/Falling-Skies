@@ -5,6 +5,7 @@ function _M:new(mainGroup)
 
     local handler = {}
     local title, level, kills, time, btRestart, overlay
+    local selectSound = audio.loadSound( "sfx/Select.wav" )
     
     local function closeAll()
         title.x = MIDDLE_WIDTH - 1600
@@ -40,6 +41,7 @@ function _M:new(mainGroup)
         
         closeAll()
         handler.onRestart()
+        audio.play(selectSound)
     end
     
     overlay = display.newRoundedRect(mainGroup, MIDDLE_WIDTH-1600, MIDDLE_HEIGHT, display.actualContentWidth, display.actualContentHeight, 0)

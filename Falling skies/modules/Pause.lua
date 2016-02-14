@@ -10,8 +10,11 @@ function _M:new(mainGroup)
     
     local btRestart, btResume, barCenter, bar1, bar2, bar3, bar4
     
+    local selectSound = audio.loadSound( "sfx/Select.wav" )
+    
     local function closeAll()
 
+        audio.play(selectSound)
         handler.bt.x = SW_VIEW - 35
         
         overlay.x = display.actualContentWidth * -1
@@ -43,6 +46,8 @@ function _M:new(mainGroup)
     function handler:open()
 
         if handler.isPause == true then return end
+        
+        audio.play(selectSound)
         
         handler.onPause()
         handler.isPause = true;
