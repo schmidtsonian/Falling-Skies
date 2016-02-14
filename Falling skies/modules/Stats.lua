@@ -10,6 +10,7 @@ function _M:new(mainGroup)
         kills = 0, 
         time = 0 
     }
+    local levelUpSound = audio.loadSound( "sfx/Level_Up.wav" )
     
     txtLevel = display.newText('', SW_VIEW_ORIGIN + 20, SH_VIEW_ORIGIN + 30, FONT_NORMAL, 14)
     txtKills = display.newText('', SW_VIEW_ORIGIN + 20, txtLevel.y + 20, FONT_NORMAL, 14)
@@ -40,6 +41,7 @@ function _M:new(mainGroup)
     
         stats.level = stats.level + 1
         txtLevel.text = "Level: " .. stats.level
+        audio.play(levelUpSound)
     end
     
     function handler:start()
