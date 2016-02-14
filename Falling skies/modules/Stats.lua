@@ -25,27 +25,27 @@ function _M:new(mainGroup)
     
     local function updateTime()
     
-        stats.time = stats.time + 0.00001
-        txtTime.text = "Time " .. roundToNthDecimal(01, stats.time)
+        stats.time = stats.time + 1
+        txtTime.text = "Time: " .. stats.time
     end
     
     local function setAll()
     
         txtLevel.text = "Level: " .. stats.level
-        txtKills.text = "Kills: " .. stats.kills
-        txtTime.text = "Time: " .. roundToNthDecimal(01, stats.time)
+        txtKills.text = "Points: " .. stats.kills
+        txtTime.text = "Time: " .. stats.time
     end
     
     local function updateLevel()
     
         stats.level = stats.level + 1
-        txtLevel.text = "Level " .. stats.level
+        txtLevel.text = "Level: " .. stats.level
     end
     
     function handler:start()
     
         setAll()
-        timerAlive = timer.performWithDelay(10, updateTime, -1)
+        timerAlive = timer.performWithDelay(1000, updateTime, -1)
         timer.pause(timerAlive)
     end
     

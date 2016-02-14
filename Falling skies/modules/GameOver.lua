@@ -27,7 +27,7 @@ function _M:new(mainGroup)
         
         
         level.text = "Level: " .. stats.level
-        kills.text = "Kills: " .. stats.kills
+        kills.text = "Points: " .. stats.kills
         time.text = "Time: " .. stats.time
     end
     

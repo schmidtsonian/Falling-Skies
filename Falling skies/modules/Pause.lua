@@ -3,7 +3,7 @@ local _M = {}
 function _M:new(mainGroup)
 
     local handler = {}
-    handler.isPause = true
+    handler.isPause = false
     handler.onPause = function() end
     handler.onResume = function() end
     handler.onRestart = function() end
