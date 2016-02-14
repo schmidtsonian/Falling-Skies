@@ -8,6 +8,8 @@ function _M:new(name, mainGroup)
     handler.enemiesSpeed = 3000
     handler.enemiesReach = SH_VIEW + 100
     
+    -- local deadSound = audio.loadSound( "sfx/Enemy_Dead.wav" )
+    
     local enemies = {}
     local timerDisplayEnemies
     
@@ -29,13 +31,15 @@ function _M:new(name, mainGroup)
             enemy.transBody = transition.to(enemy, { x = enemy.x, time = handler.enemiesSpeed, y = handler.enemiesReach,
                 onStart =
                         function()
-                            -- play sound
+                            
                         end ,
                 onCancel =
                         function()
                             enemy.text:removeSelf()
                             enemy:removeSelf()
                             enemy = nil
+                            
+                            -- audio.play(deadSound)
                         end ,
                 onComplete =
                         function()

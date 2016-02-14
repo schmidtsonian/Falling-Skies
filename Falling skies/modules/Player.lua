@@ -13,6 +13,9 @@ function _M:new(name, mainGroup, x, y, width, height)
     local body = {}
     local bullets = {}
     local timerShoot
+    
+    local bulletSound = audio.loadSound( "sfx/Laser_Shoot36.wav" )
+
 
     -- body
     body = display.newRect( mainGroup , x, y, width, height )
@@ -34,6 +37,8 @@ function _M:new(name, mainGroup, x, y, width, height)
             onStart =
                     function()
                         -- play sound
+                        
+                        audio.play( bulletSound )
                     end ,
             onCancel =
                     function()
