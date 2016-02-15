@@ -7,6 +7,7 @@ function _M:new(name, mainGroup)
     handler.speed = 3000
     handler.enemiesSpeed = 3000
     handler.enemiesReach = SH_VIEW + 100
+    handler.level = 0
     
     local deadSound = audio.loadSound( "sfx/Enemy_Dead.wav" )
     
@@ -21,7 +22,13 @@ function _M:new(name, mainGroup)
             Physics.addBody(enemy, "dynamic", {radiys= 50, isSensor = true, density = 1.0, friction = 1, bounce = 0} )
             mainGroup:insert(1, enemy)
             enemy.name = name
-            enemy.healt = 2
+            if handler.level == 0 then
+                enemy.healt = 2
+            elseif handler.level == 1 then
+                enemy.healt = 3
+            else
+                enemy.healt = 4
+            end
             
             enemy.text = display.newText(enemy.healt, enemy.x, enemy.y, FONT_BOLD, 32)
             mainGroup:insert(2, enemy.text)

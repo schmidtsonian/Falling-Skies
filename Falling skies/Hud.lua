@@ -53,19 +53,20 @@ end
 onGlobalCollision = function( e )
     
     
-    local function handleEnemy(enemy)
+    local function handleEnemy(enemy, bullet)
         
-        enemy.healt = enemy.healt - 1
+        enemy.healt = enemy.healt - bullet.power
         enemy.text.text = enemy.healt 
         
         if enemy.healt <= 0 then
             transition.cancel( enemy )
             stats:updateKill()
+            enemies.level = stats.stats.level
         end
     end
 
-    if e.object1.name == "enemy" and e.object2.name == "bullet" then handleEnemy(e.object1) transition.cancel(e.object2)
-    elseif e.object2.name == "enemy" and e.object1.name == "bullet" then handleEnemy(e.object2) transition.cancel(e.object1)
+    if e.object1.name == "enemy" and e.object2.name == "bullet" then handleEnemy(e.object1, e.object2) transition.cancel(e.object2)
+    elseif e.object2.name == "enemy" and e.object1.name == "bullet" then handleEnemy(e.object2, e.object1) transition.cancel(e.object1)
     
     elseif e.object1.name == "player" then onGameOver() 
     elseif e.object2.name == "player" then onGameOver()

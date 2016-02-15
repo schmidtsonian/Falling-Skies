@@ -34,6 +34,7 @@ function _M:new(name, mainGroup, x, y, width, height)
         mainGroup:insert(1, bullet)
         Physics.addBody ( bullet, "kynematic", {isSensor = true, density = 1.0, friction = 1, bounce = 0} )
         bullet.name = 'bullet'
+        bullet.power = 1
         
         bullet.trans =  transition.to( bullet, { x = bullet.x, time = handler.bulletSpeed, y = handler.bulletReach,
             onStart =
