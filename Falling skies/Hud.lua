@@ -20,7 +20,7 @@ onGameOver = function()
     pauseAll()
     player:dead()
     pause:lock();
-    gameOver:open(stats:getStats())
+    gameOver:open(stats.stats)
 end
 
 onPause = function()

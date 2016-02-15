@@ -5,7 +5,7 @@ function _M:new(mainGroup)
     local handler = {}
     local txtLevel, txtKills, txtTime
     local timerAlive
-    local stats = { 
+    handler.stats = { 
         level = 0, 
         kills = 0, 
         time = 0 
@@ -26,21 +26,21 @@ function _M:new(mainGroup)
     
     local function updateTime()
     
-        stats.time = stats.time + 1
-        txtTime.text = "Time: " .. stats.time
+        handler.stats.time = handler.stats.time + 1
+        txtTime.text = "Time: " .. handler.stats.time
     end
     
     local function setAll()
     
-        txtLevel.text = "Level: " .. stats.level
-        txtKills.text = "Points: " .. stats.kills
-        txtTime.text = "Time: " .. stats.time
+        txtLevel.text = "Level: " .. handler.stats.level
+        txtKills.text = "Points: " .. handler.stats.kills
+        txtTime.text = "Time: " .. handler.stats.time
     end
     
     local function updateLevel()
     
-        stats.level = stats.level + 1
-        txtLevel.text = "Level: " .. stats.level
+        handler.stats.level = handler.stats.level + 1
+        txtLevel.text = "Level: " .. handler.stats.level
         audio.play(levelUpSound)
     end
     
@@ -53,7 +53,7 @@ function _M:new(mainGroup)
     
     function handler:restart()
     
-        stats = { 
+        handler.stats = { 
             level = 0, 
             kills = 0, 
             time = 0 
@@ -71,36 +71,32 @@ function _M:new(mainGroup)
         timer.pause(timerAlive)
     end
     
-    function handler:getStats()
-        return stats
-    end
-    
     function handler:updateKill()
     
-        stats.kills = stats.kills + 1
-        txtKills.text = "Kills " .. stats.kills
+        handler.stats.kills = handler.stats.kills + 1
+        txtKills.text = "Kills " .. handler.stats.kills
         
-        if stats.kills == 10 then updateLevel()
-        elseif stats.kills == 50 then updateLevel()
-        elseif stats.kills == 100 then updateLevel()
-        elseif stats.kills == 150 then updateLevel()
-        elseif stats.kills == 200 then updateLevel()
-        elseif stats.kills == 250 then updateLevel()
-        elseif stats.kills == 300 then updateLevel()
-        elseif stats.kills == 350 then updateLevel()
-        elseif stats.kills == 400 then updateLevel()
-        elseif stats.kills == 450 then updateLevel()
-        elseif stats.kills == 500 then updateLevel()
-        elseif stats.kills == 550 then updateLevel()
-        elseif stats.kills == 600 then updateLevel()
-        elseif stats.kills == 650 then updateLevel()
-        elseif stats.kills == 700 then updateLevel()
-        elseif stats.kills == 750 then updateLevel()
-        elseif stats.kills == 800 then updateLevel()
-        elseif stats.kills == 850 then updateLevel()
-        elseif stats.kills == 900 then updateLevel()
-        elseif stats.kills == 950 then updateLevel()
-        elseif stats.kills == 1000 then updateLevel()
+        if handler.stats.kills == 10 then updateLevel()
+        elseif handler.stats.kills == 50 then updateLevel()
+        elseif handler.stats.kills == 100 then updateLevel()
+        elseif handler.stats.kills == 150 then updateLevel()
+        elseif handler.stats.kills == 200 then updateLevel()
+        elseif handler.stats.kills == 250 then updateLevel()
+        elseif handler.stats.kills == 300 then updateLevel()
+        elseif handler.stats.kills == 350 then updateLevel()
+        elseif handler.stats.kills == 400 then updateLevel()
+        elseif handler.stats.kills == 450 then updateLevel()
+        elseif handler.stats.kills == 500 then updateLevel()
+        elseif handler.stats.kills == 550 then updateLevel()
+        elseif handler.stats.kills == 600 then updateLevel()
+        elseif handler.stats.kills == 650 then updateLevel()
+        elseif handler.stats.kills == 700 then updateLevel()
+        elseif handler.stats.kills == 750 then updateLevel()
+        elseif handler.stats.kills == 800 then updateLevel()
+        elseif handler.stats.kills == 850 then updateLevel()
+        elseif handler.stats.kills == 900 then updateLevel()
+        elseif handler.stats.kills == 950 then updateLevel()
+        elseif handler.stats.kills == 1000 then updateLevel()
             
         end
     end
