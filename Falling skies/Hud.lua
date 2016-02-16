@@ -7,7 +7,9 @@ local Enemies = require "modules.Enemies"
 local Pause = require "modules.Pause"
 local GameOver = require "modules.GameOver"
 local Stats = require "modules.Stats"
-local player, enemies, pause, gameOver, stats
+local Countdown = require "modules.Countdown"
+
+local player, enemies, pause, gameOver, stats, countdown
 
 -- events
 local onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
@@ -75,7 +77,6 @@ onGlobalCollision = function( e )
 end
 
 
-
 function _M:new()
 
 
@@ -85,19 +86,20 @@ function _M:new()
     
     pause = Pause:new(mainGroup)
     gameOver = GameOver:new(mainGroup)
+    countdown = Countdown:new(mainGroup)
 
     pause.onPause = onPause
     pause.onResume = resumeAll
     pause.onRestart = restartAll
     gameOver.onRestart = restartAll
+    countdown.onComplete = resumeAll
     
     player:start()
     enemies:start()
     stats:start()
+    countdown:start()
     
     Runtime:addEventListener( "collision", onGlobalCollision )
-    
-    resumeAll()
 end
 
 return _M
