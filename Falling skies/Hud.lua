@@ -89,15 +89,14 @@ function _M:new()
     countdown = Countdown:new(mainGroup)
 
     pause.onPause = onPause
-    pause.onResume = resumeAll
-    pause.onRestart = restartAll
-    gameOver.onRestart = restartAll
-    countdown.onComplete = resumeAll
+    pause.onResume = function() countdown:start(resumeAll) end
+    pause.onRestart = function() countdown:start(restartAll) end
+    gameOver.onRestart = function() countdown:start(restartAll) end
     
     player:start()
     enemies:start()
     stats:start()
-    countdown:start()
+    countdown:start(resumeAll)
     
     Runtime:addEventListener( "collision", onGlobalCollision )
 end
