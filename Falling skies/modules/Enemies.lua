@@ -17,14 +17,15 @@ function _M:new(name, mainGroup)
     local function releaseEnemies()
         
         local healtMin = 5
-        local enemyMin = 0
+        local enemyMin = {0}
         -- level 4
         if handler.level == 4 then
-            healtMin = 3
-            enemyMin = math.random(0,4)
+            enemyMin = {math.random(4), math.random(4), math.random(4)}
+        elseif handler.level == 5 then
+            enemyMin = {math.random(4), math.random(4)}
         end
         
-        for  i= 0, 4 do
+        for i = 0, 4 do
     
             local enemy = display.newRect((MIDDLE_WIDTH / 4) + 60 * i, -100, 50, 50)
             Physics.addBody(enemy, "dynamic", {radiys= 50, isSensor = true, density = 1.0, friction = 1, bounce = 0} )
@@ -34,11 +35,15 @@ function _M:new(name, mainGroup)
                 enemy.healt = 2
             elseif handler.level == 1 then
                 enemy.healt = 3
+            elseif handler.level == 2 then
+                enemy.healt = 4
+            elseif handler.level == 3 then
+                enemy.healt = 5
             else
-                if i == enemyMin then
+                if i == enemyMin[1] or i == enemyMin[2] or i == enemyMin[3] then
                     enemy.healt = healtMin
                 else
-                    enemy.healt = 4
+                    enemy.healt = 10
                 end
             end
             
@@ -69,6 +74,7 @@ function _M:new(name, mainGroup)
                     })
             enemies[#enemies+1] = enemy
         end
+        print("---")
     end
 
     -- public methods
