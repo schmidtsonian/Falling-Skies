@@ -52,6 +52,10 @@ restartAll = function()
     resumeAll()
 end
 
+-- m0015d05eab7b
+-- 0015d05eab7b
+-- motorola
+
 onGlobalCollision = function( e )
     
     

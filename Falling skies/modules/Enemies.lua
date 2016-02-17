@@ -16,6 +16,14 @@ function _M:new(name, mainGroup)
     
     local function releaseEnemies()
         
+        local healtMin = 5
+        local enemyMin = 0
+        -- level 4
+        if handler.level == 4 then
+            healtMin = 3
+            enemyMin = math.random(0,4)
+        end
+        
         for  i= 0, 4 do
     
             local enemy = display.newRect((MIDDLE_WIDTH / 4) + 60 * i, -100, 50, 50)
@@ -27,7 +35,11 @@ function _M:new(name, mainGroup)
             elseif handler.level == 1 then
                 enemy.healt = 3
             else
-                enemy.healt = 4
+                if i == enemyMin then
+                    enemy.healt = healtMin
+                else
+                    enemy.healt = 4
+                end
             end
             
             enemy.text = display.newText(enemy.healt, enemy.x, enemy.y, FONT_BOLD, 32)

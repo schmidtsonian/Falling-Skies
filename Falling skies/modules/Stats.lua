@@ -76,10 +76,10 @@ function _M:new(mainGroup)
         handler.stats.kills = handler.stats.kills + 1
         txtKills.text = "Kills " .. handler.stats.kills
         
-        if handler.stats.kills == 10 then updateLevel()
-        elseif handler.stats.kills == 50 then updateLevel()
-        elseif handler.stats.kills == 100 then updateLevel()
-        elseif handler.stats.kills == 150 then updateLevel()
+        if handler.stats.kills == 1 then updateLevel()
+        elseif handler.stats.kills == 2 then updateLevel()
+        elseif handler.stats.kills == 3 then updateLevel()
+        elseif handler.stats.kills == 4 then updateLevel()
         elseif handler.stats.kills == 200 then updateLevel()
         elseif handler.stats.kills == 250 then updateLevel()
         elseif handler.stats.kills == 300 then updateLevel()
