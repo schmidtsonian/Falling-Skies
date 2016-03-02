@@ -100,7 +100,7 @@ end
 function _M:new()
 
 
-    player = Player:new("player", mainGroup, MIDDLE_WIDTH, SH_VIEW - 20, 50, 50)
+    player = Player:new("player", mainGroup, MIDDLE_WIDTH, SH_VIEW - 65, 50, 50)
     enemies = Enemies:new("enemy", mainGroup)
     stats = Stats:new(mainGroup)
     

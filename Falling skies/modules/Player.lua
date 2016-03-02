@@ -18,6 +18,7 @@ function _M:new(name, mainGroup, x, y, width, height)
     
     local deadSound = audio.loadSound( "sfx/Dead.wav" )
     local bulletSound = audio.loadSound( "sfx/Laser_Shoot36.wav" )
+    local upgradeWeapon = audio.loadSound( "sfx/Upgrade_Weapon.wav" )
 
 
     -- body
@@ -84,6 +85,7 @@ function _M:new(name, mainGroup, x, y, width, height)
     
     function handler:upgradeWeapon()
         gunLevel = gunLevel + 1
+        audio.play( upgradeWeapon )
     end
     
     function handler:restart()
@@ -91,6 +93,7 @@ function _M:new(name, mainGroup, x, y, width, height)
         for i,bullet in pairs(bullets) do
             transition.cancel(bullet.trans)
         end
+        gunLevel = 1
         handler.isPaused = false
         body.x = MIDDLE_WIDTH
     end
