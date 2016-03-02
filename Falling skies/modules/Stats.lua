@@ -3,26 +3,30 @@ local _M = {}
 function _M:new(mainGroup)
 
     local handler = {}
-    local txtLevel, txtKills, txtTime
+    local txtLevel, txtKills, txtTime, txtWeapon
     local timerAlive
     handler.stats = { 
         level = 0, 
         kills = 0, 
-        time = 0 
+        time = 0,
+        weapon = 1, 
     }
     local levelUpSound = audio.loadSound( "sfx/Level_Up.wav" )
     
     txtLevel = display.newText('', SW_VIEW_ORIGIN + 20, SH_VIEW_ORIGIN + 30, FONT_NORMAL, 14)
     txtKills = display.newText('', SW_VIEW_ORIGIN + 20, txtLevel.y + 20, FONT_NORMAL, 14)
     txtTime = display.newText('', SW_VIEW_ORIGIN + 20, txtKills.y + 20, FONT_NORMAL, 14)
+    txtWeapon = display.newText('', SW_VIEW_ORIGIN + 20, txtTime.y + 20, FONT_NORMAL, 14)
     
     txtLevel.anchorX = 0
     txtKills.anchorX = 0
     txtTime.anchorX = 0
+    txtWeapon.anchorX = 0
     
     mainGroup:insert(txtLevel)
     mainGroup:insert(txtKills)
     mainGroup:insert(txtTime)
+    mainGroup:insert(txtWeapon)
     
     local function updateTime()
     
@@ -35,6 +39,7 @@ function _M:new(mainGroup)
         txtLevel.text = "Level: " .. handler.stats.level
         txtKills.text = "Points: " .. handler.stats.kills
         txtTime.text = "Time: " .. handler.stats.time
+        txtWeapon.text = "Weapon: " .. handler.stats.weapon
     end
     
     local function updateLevel()
@@ -56,7 +61,8 @@ function _M:new(mainGroup)
         handler.stats = { 
             level = 0, 
             kills = 0, 
-            time = 0 
+            time = 0,
+            weapon = 1; 
         }
         setAll()
     end
@@ -69,6 +75,12 @@ function _M:new(mainGroup)
     function handler:pause()
     
         timer.pause(timerAlive)
+    end
+    
+    function handler:updateWeapon()
+        
+        handler.stats.weapon = handler.stats.weapon + 1
+        txtWeapon.text = "Weapon: " .. handler.stats.weapon
     end
     
     function handler:updateKill()

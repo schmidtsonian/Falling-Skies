@@ -4,7 +4,7 @@ local _M = {}
 function _M:new(mainGroup)
 
     local handler = {}
-    local title, level, kills, time, btRestart, overlay
+    local title, level, kills, time, weapon, btRestart, overlay
     local selectSound = audio.loadSound( "sfx/Select.wav" )
     
     local function closeAll()
@@ -12,6 +12,7 @@ function _M:new(mainGroup)
         level.x = MIDDLE_WIDTH - 1600
         kills.x = MIDDLE_WIDTH - 1600
         time.x = MIDDLE_WIDTH - 1600
+        weapon.x = MIDDLE_WIDTH - 1600
         overlay.x = MIDDLE_WIDTH - 1600
         btRestart.x = MIDDLE_WIDTH - 1600 - 90
     end
@@ -25,11 +26,13 @@ function _M:new(mainGroup)
         level.x = MIDDLE_WIDTH
         kills.x = MIDDLE_WIDTH
         time.x = MIDDLE_WIDTH
+        weapon.x = MIDDLE_WIDTH
         
         
         level.text = "Level: " .. stats.level
         kills.text = "Points: " .. stats.kills
         time.text = "Time: " .. stats.time
+        weapon.text = "Weapon: " .. stats.weapon
     end
     
     function handler:close()
@@ -48,13 +51,14 @@ function _M:new(mainGroup)
     overlay:setFillColor(0)
     overlay.alpha = .9
     
-    title = display.newText("FINAL SCORE", MIDDLE_WIDTH - 1600, MIDDLE_HEIGHT - 100, FONT_BOLD, 18)
+    title = display.newText("FINAL SCORE", MIDDLE_WIDTH - 1600, MIDDLE_HEIGHT - 110, FONT_BOLD, 18)
     level = display.newText("Level: " .. 0, MIDDLE_WIDTH - 1600, title.y + 30, FONT_BOLD, 24)
     kills = display.newText("Kills: " .. 0, MIDDLE_WIDTH - 1600, level.y + 30, FONT_BOLD, 24)
     time = display.newText("Time: " .. 0, MIDDLE_WIDTH - 1600, kills.y + 30, FONT_BOLD, 24)
+    weapon = display.newText("Weapon: " .. 0, MIDDLE_WIDTH - 1600, time.y + 30, FONT_BOLD, 24)
     btRestart = Widget.newButton( {
         left = MIDDLE_WIDTH - 1600,
-        top = MIDDLE_HEIGHT + 50,
+        top = MIDDLE_HEIGHT + 110,
         id = "btRestartGO",
         label = "Re",
         emboss = false,

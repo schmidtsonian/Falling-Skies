@@ -87,10 +87,13 @@ onGlobalCollision = function( e )
     elseif e.object2.name == "player" and e.object1.name == "enemy" then onGameOver()
     
     elseif e.object1.name == "player" and e.object2.name == "gun" then
+        
         transition.cancel(e.object2)
+        stats:updateWeapon()
         player:upgradeWeapon() 
     elseif e.object2.name == "player" and e.object1.name == "gun" then
         transition.cancel(e.object1)
+        stats:updateWeapon()
         player:upgradeWeapon()
     end
     

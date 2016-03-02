@@ -32,15 +32,29 @@ function _M:new(name, mainGroup, x, y, width, height)
     -- priva methods
     local function shoot()
     
-        local bullet = display.newRect( body.x, body.y - 80, 10, 20 )
+        local w = 10
+        local h = 10
+        local power = 1
+        
+        if gunLevel == 2 then
+            power = 2
+            h = 20
+        elseif gunLevel == 3 then
+            power = 3
+            w = 15
+            h = 20
+        elseif gunLevel >= 4 then
+            power = 4
+            w = 25
+            h = 25
+        end
+        
+        local bullet = display.newRect( body.x, body.y - 80, w, h )
         mainGroup:insert(1, bullet)
         Physics.addBody ( bullet, "kynematic", {isSensor = true, density = 1.0, friction = 1, bounce = 0} )
         bullet.name = 'bullet'
-        bullet.power = 1
+        bullet.power = power
         
-        if gunLevel >= 2 then
-            bullet.power = 2
-        end
         
         bullet.trans =  transition.to( bullet, { x = bullet.x, time = handler.bulletSpeed, y = handler.bulletReach,
             onStart =
