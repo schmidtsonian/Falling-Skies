@@ -32,16 +32,20 @@ onPause = function()
 end
 
 pauseAll = function()
+    Physics.pause()
     player:pause()
     enemies:pause()
     stats:pause()
+    object.pause()
 end
 
 resumeAll = function()
 
+    Physics.start()
     player:resume()
     enemies:resume()
     stats:resume()
+    object.resume()
 end
 
 restartAll = function()
@@ -49,6 +53,7 @@ restartAll = function()
     player:restart()
     enemies:restart()
     stats:restart()
+    object:restart()
     pause:unlock();
     resumeAll()
 end

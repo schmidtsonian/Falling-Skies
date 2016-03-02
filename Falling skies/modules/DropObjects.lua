@@ -41,6 +41,32 @@ function _M:new(mainGroup)
             
             end )
         end
+        
+    end
+    
+    function handler:pause()
+        
+        handler.isPaused = true 
+        
+        for i,obj in pairs(objects) do
+            transition.pause(obj.trans)
+        end
+    end
+    
+    function handler:resume()
+
+        for i,obj in pairs(objects) do
+            transition.resume(obj.trans)
+        end
+        handler.isPaused = false
+    end
+    
+    function handler:restart()
+
+        for i,obj in pairs(objects) do
+            transition.cancel(obj.trans)
+        end
+        handler.isPaused = false
     end
     
     return handler
