@@ -15,6 +15,7 @@ function _M:new(mainGroup)
         
             timer.performWithDelay( 50, function() 
                 local obj = display.newRect(x, y, 20, 20)
+                obj:setFillColor( 0, 1, 1 )
                 mainGroup:insert(1, obj)
                 Physics.addBody(obj, "dynamic", {isSensor = true, density=2.0} )
                 obj:applyForce(math.random(-20, 20), -28, obj.x, obj.y)
