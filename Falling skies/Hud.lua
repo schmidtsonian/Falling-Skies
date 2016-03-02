@@ -8,8 +8,9 @@ local Pause = require "modules.Pause"
 local GameOver = require "modules.GameOver"
 local Stats = require "modules.Stats"
 local Countdown = require "modules.Countdown"
+local DropObjects = require "modules.DropObjects"
 
-local player, enemies, pause, gameOver, stats, countdown
+local player, enemies, pause, gameOver, stats, countdown, object
 
 -- events
 local onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
@@ -65,8 +66,11 @@ onGlobalCollision = function( e )
         enemy.text.text = enemy.healt 
         
         if enemy.healt <= 0 then
-            transition.cancel( enemy )
             stats:updateKill()
+            -- if stats.stats.kills == 2  then
+                object:drop("gun", enemy.x, enemy.y)
+            -- end
+            transition.cancel( enemy )
             enemies.level = stats.stats.level
         end
     end
@@ -74,8 +78,15 @@ onGlobalCollision = function( e )
     if e.object1.name == "enemy" and e.object2.name == "bullet" then handleEnemy(e.object1, e.object2) transition.cancel(e.object2)
     elseif e.object2.name == "enemy" and e.object1.name == "bullet" then handleEnemy(e.object2, e.object1) transition.cancel(e.object1)
     
-    elseif e.object1.name == "player" then onGameOver() 
-    elseif e.object2.name == "player" then onGameOver()
+    elseif e.object1.name == "player" and e.object2.name == "enemy" then onGameOver() 
+    elseif e.object2.name == "player" and e.object1.name == "enemy" then onGameOver()
+    
+    elseif e.object1.name == "player" and e.object2.name == "gun" then
+        transition.cancel(e.object2)
+        player:upgradeWeapon() 
+    elseif e.object2.name == "player" and e.object1.name == "gun" then
+        transition.cancel(e.object1)
+        player:upgradeWeapon()
     end
     
 end
@@ -91,6 +102,7 @@ function _M:new()
     pause = Pause:new(mainGroup)
     gameOver = GameOver:new(mainGroup)
     countdown = Countdown:new(mainGroup)
+    object = DropObjects:new(mainGroup)
 
     pause.onPause = onPause
     pause.onResume = function() countdown:start(resumeAll) end

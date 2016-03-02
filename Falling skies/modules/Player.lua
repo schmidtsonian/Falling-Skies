@@ -77,6 +77,10 @@ function _M:new(name, mainGroup, x, y, width, height)
         return true
     end
     
+    function handler:upgradeWeapon()
+        print("upgrade weapon")
+    end
+    
     function handler:restart()
         
         for i,bullet in pairs(bullets) do
