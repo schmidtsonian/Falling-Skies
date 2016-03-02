@@ -67,9 +67,9 @@ onGlobalCollision = function( e )
         
         if enemy.healt <= 0 then
             stats:updateKill()
-            -- if stats.stats.kills == 2  then
+            if stats.stats.kills == 2 or stats.stats.kills == 12 or stats.stats.kills == 24  then
                 object:drop("gun", enemy.x, enemy.y)
-            -- end
+            end
             transition.cancel( enemy )
             enemies.level = stats.stats.level
         end

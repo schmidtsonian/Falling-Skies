@@ -14,6 +14,7 @@ function _M:new(name, mainGroup, x, y, width, height)
     local body = {}
     local bullets = {}
     local timerShoot
+    local gunLevel = 1
     
     local deadSound = audio.loadSound( "sfx/Dead.wav" )
     local bulletSound = audio.loadSound( "sfx/Laser_Shoot36.wav" )
@@ -35,6 +36,10 @@ function _M:new(name, mainGroup, x, y, width, height)
         Physics.addBody ( bullet, "kynematic", {isSensor = true, density = 1.0, friction = 1, bounce = 0} )
         bullet.name = 'bullet'
         bullet.power = 1
+        
+        if gunLevel >= 2 then
+            bullet.power = 2
+        end
         
         bullet.trans =  transition.to( bullet, { x = bullet.x, time = handler.bulletSpeed, y = handler.bulletReach,
             onStart =
@@ -78,7 +83,7 @@ function _M:new(name, mainGroup, x, y, width, height)
     end
     
     function handler:upgradeWeapon()
-        print("upgrade weapon")
+        gunLevel = gunLevel + 1
     end
     
     function handler:restart()
