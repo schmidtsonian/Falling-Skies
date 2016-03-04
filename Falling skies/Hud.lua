@@ -19,10 +19,11 @@ local onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
 
 
 onGameOver = function()
-    
+    print("game over")
     pauseAll()
     player:dead()
     pause:lock();
+    enemies:restart()
     gameOver:open(stats.stats)
 end
 
@@ -83,9 +84,6 @@ onGlobalCollision = function( e )
     if e.object1.name == "enemy" and e.object2.name == "bullet" then handleEnemy(e.object1, e.object2) transition.cancel(e.object2)
     elseif e.object2.name == "enemy" and e.object1.name == "bullet" then handleEnemy(e.object2, e.object1) transition.cancel(e.object1)
     
-    elseif e.object1.name == "player" and e.object2.name == "enemy" then onGameOver() 
-    elseif e.object2.name == "player" and e.object1.name == "enemy" then onGameOver()
-    
     elseif e.object1.name == "player" and e.object2.name == "gun" then
         
         transition.cancel(e.object2)
@@ -95,6 +93,9 @@ onGlobalCollision = function( e )
         transition.cancel(e.object1)
         stats:updateWeapon()
         player:upgradeWeapon()
+        
+    elseif e.object1.name == "player" and e.object2.name == "enemy" then onGameOver() 
+    elseif e.object2.name == "player" and e.object1.name == "enemy" then onGameOver()
     end
     
 end
@@ -114,6 +115,7 @@ function _M:new()
 
     pause.onPause = onPause
     pause.onResume = function() countdown:start(resumeAll) end
+    
     pause.onRestart = function() countdown:start(restartAll) end
     gameOver.onRestart = function() countdown:start(restartAll) end
     

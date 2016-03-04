@@ -84,6 +84,7 @@ function _M:new(name, mainGroup)
             transition.cancel(enemy.transBody)
             transition.cancel(enemy.transText)
         end
+        handler.level = 0
         handler.isPaused = false
     end
     
