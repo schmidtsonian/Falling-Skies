@@ -47,7 +47,7 @@ function _M:new(name, mainGroup)
                 end
             end
             
-            enemy.text = display.newText(enemy.healt, enemy.x, enemy.y, FONT_BOLD, 32)
+            enemy.text = display.newText(enemy.healt, enemy.x, enemy.y, FONT_BOLD, 24)
             mainGroup:insert(2, enemy.text)
             enemy.text:setFillColor(0, 0, 0)
             

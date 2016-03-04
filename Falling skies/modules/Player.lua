@@ -43,36 +43,75 @@ function _M:new(name, mainGroup, x, y, width, height)
             power = 3
             w = 15
             h = 20
-        elseif gunLevel >= 4 then
+        elseif gunLevel == 4 then
             power = 4
             w = 25
             h = 25
+        elseif gunLevel >= 5 then
+            power = 2.5
+            -- w = 25
+            -- h = 25
         end
         
-        local bullet = display.newRect( body.x, body.y - 80, w, h )
-        mainGroup:insert(1, bullet)
-        Physics.addBody ( bullet, "kynematic", {isSensor = true, density = 1.0, friction = 1, bounce = 0} )
-        bullet.name = 'bullet'
-        bullet.power = power
+        if gunLevel == 5 then
         
+            local x = body.x - 15
+            
+            for i = 1, 2 do
+            
+                local bullet = display.newRect( x, body.y - 80, w, h )
+                mainGroup:insert(1, bullet)
+                Physics.addBody ( bullet, "kynematic", {isSensor = true, density = 1.0, friction = 1, bounce = 0} )
+                bullet.name = 'bullet'
+                bullet.power = power
+                
+                
+                bullet.trans =  transition.to( bullet, { x = bullet.x, time = handler.bulletSpeed, y = handler.bulletReach,
+                    onStart =
+                            function()
+                                audio.play( bulletSound )
+                            end ,
+                    onCancel =
+                            function()
+                                bullet:removeSelf()
+                                bullet = nil
+                            end ,
+                    onComplete =
+                            function()
+                                bullet:removeSelf()
+                                bullet = nil
+                            end
+                        })
+                bullets[#bullets+1] = bullet
+                x = x + 30
+            end
         
-        bullet.trans =  transition.to( bullet, { x = bullet.x, time = handler.bulletSpeed, y = handler.bulletReach,
-            onStart =
-                    function()
-                        audio.play( bulletSound )
-                    end ,
-            onCancel =
-                    function()
-                        bullet:removeSelf()
-                        bullet = nil
-                    end ,
-            onComplete =
-                    function()
-                        bullet:removeSelf()
-                        bullet = nil
-                    end
-                })
-        bullets[#bullets+1] = bullet
+        else
+            local bullet = display.newRect( body.x, body.y - 80, w, h )
+            mainGroup:insert(1, bullet)
+            Physics.addBody ( bullet, "kynematic", {isSensor = true, density = 1.0, friction = 1, bounce = 0} )
+            bullet.name = 'bullet'
+            bullet.power = power
+            
+            
+            bullet.trans =  transition.to( bullet, { x = bullet.x, time = handler.bulletSpeed, y = handler.bulletReach,
+                onStart =
+                        function()
+                            audio.play( bulletSound )
+                        end ,
+                onCancel =
+                        function()
+                            bullet:removeSelf()
+                            bullet = nil
+                        end ,
+                onComplete =
+                        function()
+                            bullet:removeSelf()
+                            bullet = nil
+                        end
+                    })
+            bullets[#bullets+1] = bullet
+        end
     end
     
     local function move(e)
