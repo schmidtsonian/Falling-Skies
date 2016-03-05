@@ -10,10 +10,10 @@ local Stats = require "modules.Stats"
 local Countdown = require "modules.Countdown"
 local DropObjects = require "modules.DropObjects"
 
-local player, enemies, pause, gameOver, stats, countdown, object
+local logo, player, enemies, pause, gameOver, stats, countdown, object
 
 -- events
-local onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
+local start, removeHome, onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
 
 
 
@@ -101,8 +101,7 @@ onGlobalCollision = function( e )
 end
 
 
-function _M:new()
-
+start = function()
 
     player = Player:new("player", mainGroup, MIDDLE_WIDTH, SH_VIEW - 65, 50, 50)
     enemies = Enemies:new("enemy", mainGroup)
@@ -126,5 +125,30 @@ function _M:new()
     
     Runtime:addEventListener( "collision", onGlobalCollision )
 end
+
+removeHome = function()
+
+    Runtime:removeEventListener( "touch", removeHome )
+    
+    transition.to( logo, { y = -200, onComplete = start })
+end 
+
+
+function _M:new()
+
+    logo = display.newImage( 'images/logo-falling-skies.png'  )
+    logo.anchorX = 0.5
+    logo.anchorY = 0.5
+    logo.width = 280
+    logo.height = 153
+    logo.x = MIDDLE_WIDTH
+    logo.y = MIDDLE_HEIGHT
+    
+    Runtime:addEventListener( "touch", removeHome )
+end
+
+
+
+
 
 return _M
