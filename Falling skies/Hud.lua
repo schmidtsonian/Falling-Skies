@@ -10,7 +10,7 @@ local Stats = require "modules.Stats"
 local Countdown = require "modules.Countdown"
 local DropObjects = require "modules.DropObjects"
 
-local logo, player, enemies, pause, gameOver, stats, countdown, object
+local logo, txtPlay, player, enemies, pause, gameOver, stats, countdown, object
 
 -- events
 local start, removeHome, onGlobalCollision, onGameOver, onPause, pauseAll, resumeAll, restartAll
@@ -130,7 +130,9 @@ removeHome = function()
 
     Runtime:removeEventListener( "touch", removeHome )
     
-    transition.to( logo, { y = -200, onComplete = start })
+    
+    transition.to( txtPlay, { alpha = 0, time = 25, xScale = 1.5, yScale = 1.5, transition = easing.inCubic })
+    transition.to( logo, { y = -200, time = 750, onComplete = start, transition = easing.inCubic })
 end 
 
 
@@ -142,7 +144,10 @@ function _M:new()
     logo.width = 280
     logo.height = 153
     logo.x = MIDDLE_WIDTH
-    logo.y = MIDDLE_HEIGHT
+    logo.y = MIDDLE_HEIGHT - 65
+    
+    txtPlay = display.newText('TAP TO PLAY', MIDDLE_WIDTH, SH_VIEW - 75, FONT_BOLD, 28)
+    
     
     Runtime:addEventListener( "touch", removeHome )
 end
